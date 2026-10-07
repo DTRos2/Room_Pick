@@ -1,0 +1,384 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -150 2350 1760" width="2350" height="1760" font-family="'HY헤드라인M','HYHeadLine-Medium','HY헤드라인','Malgun Gothic','맑은 고딕',sans-serif">
+<rect x="-60" y="-150" width="2350" height="1760" fill="#ffffff"/>
+<rect x="-20" y="38" width="840" height="558" fill="none" stroke="#74c0fc" stroke-width="4" rx="14"/>
+<text x="-8" y="59" font-size="15" fill="#1971c2" text-anchor="start">화면 (버튼 · 팝업 · 상품 목록)</text>
+<rect x="-20" y="604" width="390" height="142" fill="none" stroke="#63e6be" stroke-width="4" rx="14"/>
+<text x="-8" y="625" font-size="15" fill="#0f766e" text-anchor="start">색상 정보</text>
+<rect x="430" y="604" width="390" height="170" fill="none" stroke="#fcc419" stroke-width="4" rx="14"/>
+<text x="442" y="625" font-size="15" fill="#b45309" text-anchor="start">마우스 감지</text>
+<rect x="-20" y="782" width="1290" height="208" fill="none" stroke="#69db7c" stroke-width="4" rx="14"/>
+<text x="-8" y="803" font-size="15" fill="#15803d" text-anchor="start">3D 공간 (모델하우스 · 가구 · 카메라)</text>
+<rect x="880" y="38" width="390" height="258" fill="none" stroke="#b197fc" stroke-width="4" rx="14"/>
+<text x="892" y="59" font-size="15" fill="#6d28d9" text-anchor="start">전체 연결 담당</text>
+<rect x="880" y="302" width="390" height="176" fill="none" stroke="#ffa94d" stroke-width="4" rx="14"/>
+<text x="892" y="323" font-size="15" fill="#c2410c" text-anchor="start">상품 검색 · 정렬</text>
+<polygon points="880,528 1280,528 1280,38 2230,38 2230,1075 1280,1075 1280,740 880,740" fill="none" stroke="#63e6be" stroke-width="4" stroke-linejoin="round"/>
+<text x="892" y="549" font-size="15" fill="#0f766e" text-anchor="start">상품 가져오는 방법 (규칙)</text>
+<text x="1292" y="59" font-size="15" fill="#0f766e" text-anchor="start">상품 정보 가져오기 (네이버 API · 캐시 · 예비 파일)</text>
+<rect x="-20" y="1120" width="2250" height="450" fill="none" stroke="#ff8787" stroke-width="4" rx="14"/>
+<text x="2216" y="1146" font-size="18" fill="#b91c1c" text-anchor="end">예외 처리</text>
+<text x="900" y="-30" font-size="28" fill="#1e1e1e" text-anchor="start">RoomPick 클래스 다이어그램</text>
+<rect x="1410" y="-112" width="540" height="130" fill="#fff3bf" stroke="#f59e0b" stroke-width="1.2" rx="0"/>
+<text x="1422" y="-88" font-size="15" fill="#1e1e1e" text-anchor="start">상품을 가져오는 순서 (RoomPickManager가 시작할 때 연결)</text>
+<text x="1422" y="-62" font-size="14" fill="#1e1e1e" text-anchor="start">1. Naver: 네이버 API로 검색한다</text>
+<text x="1422" y="-42" font-size="14" fill="#1e1e1e" text-anchor="start">2. Cached: 같은 검색어는 저장해 둔 결과를 다시 쓴다</text>
+<text x="1422" y="-22" font-size="14" fill="#1e1e1e" text-anchor="start">3. Fallback: 1~2가 실패하면 Json(예비 파일)에서 읽는다</text>
+<text x="1422" y="-2" font-size="14" fill="#1e1e1e" text-anchor="start">※ 예비 파일에서 읽은 결과는 저장해 두지 않는다</text>
+<rect x="0" y="70" width="350" height="48" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="175.0" y="89" font-size="13" fill="#1e1e1e" text-anchor="middle">«enum»</text>
+<text x="175.0" y="109" font-size="16" fill="#1e1e1e" text-anchor="middle">PopoverState</text>
+<rect x="0" y="118" width="350" height="84" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="138" font-size="14" fill="#1e1e1e" text-anchor="start">Loading</text>
+<text x="8" y="156" font-size="14" fill="#1e1e1e" text-anchor="start">Loaded</text>
+<text x="8" y="174" font-size="14" fill="#1e1e1e" text-anchor="start">Empty</text>
+<text x="8" y="192" font-size="14" fill="#1e1e1e" text-anchor="start">Error</text>
+<rect x="0" y="262" width="350" height="48" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="175.0" y="281" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="175.0" y="301" font-size="16" fill="#1e1e1e" text-anchor="middle">ColorButtonUI</text>
+<rect x="0" y="310" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="330" font-size="14" fill="#1e1e1e" text-anchor="start">- option: ColorOption</text>
+<text x="8" y="348" font-size="14" fill="#1e1e1e" text-anchor="start">+ OnColorClicked: Action</text>
+<rect x="0" y="358" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="378" font-size="14" fill="#1e1e1e" text-anchor="start">+ Init(ColorOption): void</text>
+<rect x="0" y="458" width="350" height="48" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="175.0" y="477" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="175.0" y="497" font-size="16" fill="#1e1e1e" text-anchor="middle">ProductListItemUI</text>
+<rect x="0" y="506" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="526" font-size="14" fill="#1e1e1e" text-anchor="start">- product: Product</text>
+<rect x="0" y="536" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="556" font-size="14" fill="#1e1e1e" text-anchor="start">+ Bind(Product): void</text>
+<text x="8" y="574" font-size="14" fill="#1e1e1e" text-anchor="start">- OpenLink(): void</text>
+<rect x="0" y="634" width="350" height="48" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="175.0" y="653" font-size="13" fill="#1e1e1e" text-anchor="middle">«Serializable struct»</text>
+<text x="175.0" y="673" font-size="16" fill="#1e1e1e" text-anchor="middle">ColorOption</text>
+<rect x="0" y="682" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="702" font-size="14" fill="#1e1e1e" text-anchor="start">+ name: string</text>
+<text x="8" y="720" font-size="14" fill="#1e1e1e" text-anchor="start">+ color: Color</text>
+<rect x="0" y="840" width="350" height="48" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="175.0" y="859" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="175.0" y="879" font-size="16" fill="#1e1e1e" text-anchor="middle">ModelHouseLoader</text>
+<rect x="0" y="888" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="908" font-size="14" fill="#1e1e1e" text-anchor="start">- modelHousePrefab: GameObject</text>
+<rect x="0" y="918" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="938" font-size="14" fill="#1e1e1e" text-anchor="start">+ Load(): void</text>
+<rect x="450" y="70" width="350" height="48" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="625.0" y="89" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="625.0" y="109" font-size="16" fill="#1e1e1e" text-anchor="middle">SelectButtonUI</text>
+<rect x="450" y="118" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="138" font-size="14" fill="#1e1e1e" text-anchor="start">+ OnSelectClicked: Action</text>
+<rect x="450" y="148" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="168" font-size="14" fill="#1e1e1e" text-anchor="start">+ Show(SelectableAsset): void</text>
+<text x="458" y="186" font-size="14" fill="#1e1e1e" text-anchor="start">+ Hide(): void</text>
+<rect x="450" y="246" width="350" height="48" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="625.0" y="265" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="625.0" y="285" font-size="16" fill="#1e1e1e" text-anchor="middle">ProductPopoverUI</text>
+<rect x="450" y="294" width="350" height="66" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="314" font-size="14" fill="#1e1e1e" text-anchor="start">- state: PopoverState</text>
+<text x="458" y="332" font-size="14" fill="#1e1e1e" text-anchor="start">- colorButtons: ColorButtonUI[*]</text>
+<text x="458" y="350" font-size="14" fill="#1e1e1e" text-anchor="start">+ OnArrowClicked: Action</text>
+<rect x="450" y="360" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="380" font-size="14" fill="#1e1e1e" text-anchor="start">+ SetState(PopoverState): void</text>
+<text x="458" y="398" font-size="14" fill="#1e1e1e" text-anchor="start">+ ShowLowest(Product): void</text>
+<rect x="450" y="458" width="350" height="48" fill="#a5d8ff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="625.0" y="477" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="625.0" y="497" font-size="16" fill="#1e1e1e" text-anchor="middle">ProductListPanelUI</text>
+<rect x="450" y="506" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="526" font-size="14" fill="#1e1e1e" text-anchor="start">- items: ProductListItemUI[*]</text>
+<rect x="450" y="536" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="556" font-size="14" fill="#1e1e1e" text-anchor="start">+ Show(Product[*]): void</text>
+<text x="458" y="574" font-size="14" fill="#1e1e1e" text-anchor="start">+ Hide(): void</text>
+<rect x="450" y="634" width="350" height="48" fill="#fff3bf" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="625.0" y="653" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="625.0" y="673" font-size="16" fill="#1e1e1e" text-anchor="middle">HoverDetector</text>
+<rect x="450" y="682" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="702" font-size="14" fill="#1e1e1e" text-anchor="start">- current: SelectableAsset[0..1]</text>
+<text x="458" y="720" font-size="14" fill="#1e1e1e" text-anchor="start">+ OnHoverChanged: Action</text>
+<rect x="450" y="730" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="750" font-size="14" fill="#1e1e1e" text-anchor="start">- Update(): void</text>
+<rect x="450" y="810" width="350" height="48" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="625.0" y="829" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="625.0" y="849" font-size="16" fill="#1e1e1e" text-anchor="middle">SelectableAsset</text>
+<rect x="450" y="858" width="350" height="84" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="878" font-size="14" fill="#1e1e1e" text-anchor="start">+ assetId: string</text>
+<text x="458" y="896" font-size="14" fill="#1e1e1e" text-anchor="start">+ searchQuery: string</text>
+<text x="458" y="914" font-size="14" fill="#1e1e1e" text-anchor="start">+ colorOptions: ColorOption[*]</text>
+<text x="458" y="932" font-size="14" fill="#1e1e1e" text-anchor="start">- targetRenderer: Renderer</text>
+<rect x="450" y="942" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="962" font-size="14" fill="#1e1e1e" text-anchor="start">+ ApplyColor(Color): void</text>
+<rect x="900" y="70" width="350" height="48" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1075.0" y="89" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="1075.0" y="109" font-size="16" fill="#1e1e1e" text-anchor="middle">RoomPickManager</text>
+<rect x="900" y="118" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="908" y="138" font-size="14" fill="#1e1e1e" text-anchor="start">- selected: SelectableAsset[0..1]</text>
+<text x="908" y="156" font-size="14" fill="#1e1e1e" text-anchor="start">- productService: ProductService</text>
+<rect x="900" y="166" width="350" height="120" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="908" y="186" font-size="14" fill="#1e1e1e" text-anchor="start">- BuildRepository(): void</text>
+<text x="908" y="204" font-size="14" fill="#1e1e1e" text-anchor="start">- OnFallbackUsed(ErrorCode): void</text>
+<text x="908" y="222" font-size="14" fill="#1e1e1e" text-anchor="start">- OnSelectClicked(): void</text>
+<text x="908" y="240" font-size="14" fill="#1e1e1e" text-anchor="start">- OnColorClicked(ColorOption): void</text>
+<text x="908" y="258" font-size="14" fill="#1e1e1e" text-anchor="start">- OnArrowClicked(): void</text>
+<text x="908" y="276" font-size="14" fill="#1e1e1e" text-anchor="start">- IsCurrent(SelectableAsset): bool</text>
+<rect x="900" y="330" width="350" height="36" fill="#ffd8a8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1075.0" y="354" font-size="16" fill="#1e1e1e" text-anchor="middle">ProductService</text>
+<rect x="900" y="366" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="908" y="386" font-size="14" fill="#1e1e1e" text-anchor="start">- repository: IProductRepository</text>
+<rect x="900" y="396" width="350" height="66" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="908" y="416" font-size="14" fill="#1e1e1e" text-anchor="start">+ SearchAsync(string): Product[*]</text>
+<text x="908" y="434" font-size="14" fill="#1e1e1e" text-anchor="start">+ FindLowest(Product[*]): Product</text>
+<text x="908" y="452" font-size="14" fill="#1e1e1e" text-anchor="start">+ Sort(Product[*]): Product[*]</text>
+<rect x="900" y="560" width="350" height="48" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1075.0" y="579" font-size="13" fill="#1e1e1e" text-anchor="middle">«interface»</text>
+<text x="1075.0" y="599" font-size="16" fill="#1e1e1e" text-anchor="middle">IProductRepository</text>
+<rect x="900" y="608" width="350" height="24" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<rect x="900" y="632" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="908" y="652" font-size="14" fill="#1e1e1e" text-anchor="start">+ SearchAsync(string): Product[*]</text>
+<rect x="900" y="790" width="350" height="48" fill="#b2f2bb" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1075.0" y="809" font-size="13" fill="#1e1e1e" text-anchor="middle">«MonoBehaviour»</text>
+<text x="1075.0" y="829" font-size="16" fill="#1e1e1e" text-anchor="middle">CameraController</text>
+<rect x="900" y="838" width="350" height="66" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="908" y="858" font-size="14" fill="#1e1e1e" text-anchor="start">- moveSpeed: float</text>
+<text x="908" y="876" font-size="14" fill="#1e1e1e" text-anchor="start">- rotateSpeed: float</text>
+<text x="908" y="894" font-size="14" fill="#1e1e1e" text-anchor="start">- zoomSpeed: float</text>
+<rect x="900" y="904" width="350" height="66" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="908" y="924" font-size="14" fill="#1e1e1e" text-anchor="start">- Move(): void</text>
+<text x="908" y="942" font-size="14" fill="#1e1e1e" text-anchor="start">- Rotate(): void</text>
+<text x="908" y="960" font-size="14" fill="#1e1e1e" text-anchor="start">- Zoom(): void</text>
+<rect x="1410" y="70" width="350" height="36" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1585.0" y="94" font-size="16" fill="#1e1e1e" text-anchor="middle">NaverShoppingRepository</text>
+<rect x="1410" y="106" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1418" y="126" font-size="14" fill="#1e1e1e" text-anchor="start">- config: NaverApiConfig</text>
+<rect x="1410" y="136" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1418" y="156" font-size="14" fill="#1e1e1e" text-anchor="start">+ SearchAsync(string): Product[*]</text>
+<text x="1418" y="174" font-size="14" fill="#1e1e1e" text-anchor="start">- ThrowByStatus(long): void</text>
+<rect x="1410" y="234" width="350" height="36" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1585.0" y="258" font-size="16" fill="#1e1e1e" text-anchor="middle">JsonProductRepository</text>
+<rect x="1410" y="270" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1418" y="290" font-size="14" fill="#1e1e1e" text-anchor="start">- jsonPath: string</text>
+<rect x="1410" y="300" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1418" y="320" font-size="14" fill="#1e1e1e" text-anchor="start">+ SearchAsync(string): Product[*]</text>
+<rect x="1410" y="380" width="350" height="36" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1585.0" y="404" font-size="16" fill="#1e1e1e" text-anchor="middle">CachedProductRepository</text>
+<rect x="1410" y="416" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1418" y="436" font-size="14" fill="#1e1e1e" text-anchor="start">- inner: IProductRepository</text>
+<text x="1418" y="454" font-size="14" fill="#1e1e1e" text-anchor="start">- cache: Map&lt;string, Product[*]&gt;</text>
+<rect x="1410" y="464" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1418" y="484" font-size="14" fill="#1e1e1e" text-anchor="start">+ SearchAsync(string): Product[*]</text>
+<rect x="1410" y="544" width="350" height="36" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1585.0" y="568" font-size="16" fill="#1e1e1e" text-anchor="middle">FallbackProductRepository</text>
+<rect x="1410" y="580" width="350" height="66" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1418" y="600" font-size="14" fill="#1e1e1e" text-anchor="start">- primary: IProductRepository</text>
+<text x="1418" y="618" font-size="14" fill="#1e1e1e" text-anchor="start">- fallback: IProductRepository</text>
+<text x="1418" y="636" font-size="14" fill="#1e1e1e" text-anchor="start">+ OnFallbackUsed: Action&lt;ErrorCode&gt;</text>
+<rect x="1410" y="646" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1418" y="666" font-size="14" fill="#1e1e1e" text-anchor="start">+ SearchAsync(string): Product[*]</text>
+<rect x="1860" y="70" width="350" height="48" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="2035.0" y="89" font-size="13" fill="#1e1e1e" text-anchor="middle">«ScriptableObject»</text>
+<text x="2035.0" y="109" font-size="16" fill="#1e1e1e" text-anchor="middle">NaverApiConfig</text>
+<rect x="1860" y="118" width="350" height="66" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1868" y="138" font-size="14" fill="#1e1e1e" text-anchor="start">+ clientId: string</text>
+<text x="1868" y="156" font-size="14" fill="#1e1e1e" text-anchor="start">+ clientSecret: string</text>
+<text x="1868" y="174" font-size="14" fill="#1e1e1e" text-anchor="start">+ defaultDisplay: int</text>
+<rect x="1860" y="234" width="350" height="48" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="2035.0" y="253" font-size="13" fill="#1e1e1e" text-anchor="middle">«Serializable»</text>
+<text x="2035.0" y="273" font-size="16" fill="#1e1e1e" text-anchor="middle">NaverShopResponse</text>
+<rect x="1860" y="282" width="350" height="84" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1868" y="302" font-size="14" fill="#1e1e1e" text-anchor="start">+ total: int</text>
+<text x="1868" y="320" font-size="14" fill="#1e1e1e" text-anchor="start">+ start: int</text>
+<text x="1868" y="338" font-size="14" fill="#1e1e1e" text-anchor="start">+ display: int</text>
+<text x="1868" y="356" font-size="14" fill="#1e1e1e" text-anchor="start">+ items: NaverShopItem[*]</text>
+<rect x="1860" y="416" width="350" height="48" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="2035.0" y="435" font-size="13" fill="#1e1e1e" text-anchor="middle">«Serializable»</text>
+<text x="2035.0" y="455" font-size="16" fill="#1e1e1e" text-anchor="middle">NaverShopItem</text>
+<rect x="1860" y="464" width="350" height="192" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1868" y="484" font-size="14" fill="#1e1e1e" text-anchor="start">+ title: string</text>
+<text x="1868" y="502" font-size="14" fill="#1e1e1e" text-anchor="start">+ link: string</text>
+<text x="1868" y="520" font-size="14" fill="#1e1e1e" text-anchor="start">+ image: string</text>
+<text x="1868" y="538" font-size="14" fill="#1e1e1e" text-anchor="start">+ lprice: string</text>
+<text x="1868" y="556" font-size="14" fill="#1e1e1e" text-anchor="start">+ hprice: string</text>
+<text x="1868" y="574" font-size="14" fill="#1e1e1e" text-anchor="start">+ mallName: string</text>
+<text x="1868" y="592" font-size="14" fill="#1e1e1e" text-anchor="start">+ productId: string</text>
+<text x="1868" y="610" font-size="14" fill="#1e1e1e" text-anchor="start">+ brand: string</text>
+<text x="1868" y="628" font-size="14" fill="#1e1e1e" text-anchor="start">+ maker: string</text>
+<text x="1868" y="646" font-size="14" fill="#1e1e1e" text-anchor="start">+ category1..4: string</text>
+<rect x="1860" y="706" width="350" height="48" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="2035.0" y="725" font-size="13" fill="#1e1e1e" text-anchor="middle">«static»</text>
+<text x="2035.0" y="745" font-size="16" fill="#1e1e1e" text-anchor="middle">ProductMapper</text>
+<rect x="1860" y="754" width="350" height="24" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<rect x="1860" y="778" width="350" height="66" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1868" y="798" font-size="14" fill="#1e1e1e" text-anchor="start">+ ToProduct(NaverShopItem): Product</text>
+<text x="1868" y="816" font-size="14" fill="#1e1e1e" text-anchor="start">- StripTags(string): string</text>
+<text x="1868" y="834" font-size="14" fill="#1e1e1e" text-anchor="start">- ParsePrice(string): int</text>
+<rect x="1860" y="894" width="350" height="48" fill="#c3fae8" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="2035.0" y="913" font-size="13" fill="#1e1e1e" text-anchor="middle">«record»</text>
+<text x="2035.0" y="933" font-size="16" fill="#1e1e1e" text-anchor="middle">Product</text>
+<rect x="1860" y="942" width="350" height="120" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1868" y="962" font-size="14" fill="#1e1e1e" text-anchor="start">+ Id: string {readonly}</text>
+<text x="1868" y="980" font-size="14" fill="#1e1e1e" text-anchor="start">+ Name: string {readonly}</text>
+<text x="1868" y="998" font-size="14" fill="#1e1e1e" text-anchor="start">+ Price: int {readonly}</text>
+<text x="1868" y="1016" font-size="14" fill="#1e1e1e" text-anchor="start">+ Link: string {readonly}</text>
+<text x="1868" y="1034" font-size="14" fill="#1e1e1e" text-anchor="start">+ ImageUrl: string {readonly}</text>
+<text x="1868" y="1052" font-size="14" fill="#1e1e1e" text-anchor="start">+ MallName: string {readonly}</text>
+<rect x="0" y="1150" width="350" height="36" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="175.0" y="1174" font-size="16" fill="#1e1e1e" text-anchor="middle">ErrorNotifierUI</text>
+<rect x="0" y="1186" width="350" height="24" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<rect x="0" y="1210" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="1230" font-size="14" fill="#1e1e1e" text-anchor="start">+ Show(ErrorCode): void</text>
+<rect x="0" y="1280" width="350" height="36" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="175.0" y="1304" font-size="16" fill="#1e1e1e" text-anchor="middle">ErrorLogger</text>
+<rect x="0" y="1316" width="350" height="24" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<rect x="0" y="1340" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="1360" font-size="14" fill="#1e1e1e" text-anchor="start">+ Log(Exception): void</text>
+<rect x="450" y="1215" width="350" height="36" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="625.0" y="1239" font-size="16" fill="#1e1e1e" text-anchor="middle">GlobalExceptionHandler</text>
+<rect x="450" y="1251" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="1271" font-size="14" fill="#1e1e1e" text-anchor="start">- notifier: ErrorNotifierUI</text>
+<text x="458" y="1289" font-size="14" fill="#1e1e1e" text-anchor="start">- logger: ErrorLogger</text>
+<rect x="450" y="1299" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="1319" font-size="14" fill="#1e1e1e" text-anchor="start">+ Handle(Exception): void</text>
+<rect x="900" y="1227" width="350" height="36" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1075.0" y="1251" font-size="16" fill="#1e1e1e" text-anchor="middle">RoomPickException</text>
+<rect x="900" y="1263" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="908" y="1283" font-size="14" fill="#1e1e1e" text-anchor="start">+ ErrorCode: ErrorCode {readonly}</text>
+<rect x="1350" y="1185" width="230" height="48" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1465.0" y="1204" font-size="13" fill="#1e1e1e" text-anchor="middle">«enum»</text>
+<text x="1465.0" y="1224" font-size="16" fill="#1e1e1e" text-anchor="middle">ErrorCode</text>
+<rect x="1350" y="1233" width="230" height="84" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1358" y="1253" font-size="14" fill="#1e1e1e" text-anchor="start">NetworkFailed</text>
+<text x="1358" y="1271" font-size="14" fill="#1e1e1e" text-anchor="start">ApiAuthFailed</text>
+<text x="1358" y="1289" font-size="14" fill="#1e1e1e" text-anchor="start">ApiQuotaExceeded</text>
+<text x="1358" y="1307" font-size="14" fill="#1e1e1e" text-anchor="start">ApiResponseInvalid</text>
+<rect x="0" y="1450" width="350" height="36" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="175.0" y="1474" font-size="16" fill="#1e1e1e" text-anchor="middle">ApiAuthException</text>
+<rect x="0" y="1486" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="8" y="1506" font-size="14" fill="#1e1e1e" text-anchor="start">+ ErrorCode = ApiAuthFailed</text>
+<rect x="450" y="1450" width="350" height="36" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="625.0" y="1474" font-size="16" fill="#1e1e1e" text-anchor="middle">ApiResponseException</text>
+<rect x="450" y="1486" width="350" height="48" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="458" y="1506" font-size="14" fill="#1e1e1e" text-anchor="start">+ ErrorCode = ApiResponseInvalid</text>
+<text x="458" y="1524" font-size="14" fill="#1e1e1e" text-anchor="start">+ RawResponse: string</text>
+<rect x="1410" y="1450" width="350" height="36" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1585.0" y="1474" font-size="16" fill="#1e1e1e" text-anchor="middle">NetworkException</text>
+<rect x="1410" y="1486" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1418" y="1506" font-size="14" fill="#1e1e1e" text-anchor="start">+ ErrorCode = NetworkFailed</text>
+<rect x="1860" y="1450" width="350" height="36" fill="#ffc9c9" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="2035.0" y="1474" font-size="16" fill="#1e1e1e" text-anchor="middle">ApiQuotaException</text>
+<rect x="1860" y="1486" width="350" height="30" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.5" rx="0"/>
+<text x="1868" y="1506" font-size="14" fill="#1e1e1e" text-anchor="start">+ ErrorCode = ApiQuotaExceeded</text>
+<polyline points="900.0,102.4 800.0,133.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="800.0" y1="133.0" x2="812.9" y2="134.8" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="800.0" y1="133.0" x2="809.7" y2="124.3" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="900.0,134.8 800.0,327.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="800.0" y1="327.0" x2="810.3" y2="319.1" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="800.0" y1="327.0" x2="800.6" y2="314.0" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="900.0,167.2 800.0,521.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="800.0" y1="521.0" x2="808.5" y2="511.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="800.0" y1="521.0" x2="797.9" y2="508.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="900.0,199.6 800.0,697.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="800.0" y1="697.0" x2="807.7" y2="686.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="800.0" y1="697.0" x2="796.9" y2="684.4" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="900.0,232.0 800.0,891.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="800.0" y1="891.0" x2="807.2" y2="880.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="800.0" y1="891.0" x2="796.3" y2="878.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="1075.0,286.0 1075.0,330.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="1075.0" y1="330.0" x2="1080.5" y2="318.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1075.0" y1="330.0" x2="1069.5" y2="318.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="1075.0,462.0 1075.0,560.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="1075.0" y1="560.0" x2="1080.5" y2="548.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1075.0" y1="560.0" x2="1069.5" y2="548.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="625.0,760.0 625.0,810.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="625.0" y1="810.0" x2="630.5" y2="798.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="625.0" y1="810.0" x2="619.5" y2="798.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="450.0,278.4 350.0,162.4" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="350.0" y1="162.4" x2="353.5" y2="174.9" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="350.0" y1="162.4" x2="361.9" y2="167.7" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="450.0,343.2 350.0,343.2" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="450.0,343.2 439.0,337.2 428.0,343.2 439.0,349.2" fill="#1e1e1e" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="350.0" y1="343.2" x2="361.8" y2="348.7" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="350.0" y1="343.2" x2="361.8" y2="337.7" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="450.0,521.0 350.0,521.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="450.0,521.0 439.0,515.0 428.0,521.0 439.0,527.0" fill="#1e1e1e" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="350.0" y1="521.0" x2="361.8" y2="526.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="350.0" y1="521.0" x2="361.8" y2="515.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="450.0,891.0 350.0,682.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="450.0,891.0 450.7,878.5 440.5,871.2 439.8,883.7" fill="#1e1e1e" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="350.0" y1="682.0" x2="350.1" y2="695.0" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="350.0" y1="682.0" x2="360.0" y2="690.3" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="1410.0,127.0 1305.0,127.0 1305.0,611.0 1250.0,611.0" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<polygon points="1250.0,611.0 1268.0,601.0 1268.0,621.0" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.6"/>
+<polyline points="1410.0,282.0 1305.0,282.0" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<polyline points="1410.0,414.2 1305.0,414.2" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<polyline points="1410.0,590.2 1305.0,590.2" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<polyline points="1410.0,468.9 1365.0,468.9 1365.0,720.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="1410.0,468.9 1399.0,462.9 1388.0,468.9 1399.0,474.9" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.6"/>
+<polyline points="1497.5,676.0 1497.5,720.0 1075.0,720.0 1075.0,662.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="1497.5,676.0 1491.5,687.0 1497.5,698.0 1503.5,687.0" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="1075.0" y1="662.0" x2="1069.5" y2="673.8" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1075.0" y1="662.0" x2="1080.5" y2="673.8" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="1760.0,127.0 1860.0,127.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="1860.0" y1="127.0" x2="1848.2" y2="121.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1860.0" y1="127.0" x2="1848.2" y2="132.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="1760.0,149.8 1860.0,300.0" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="1860.0" y1="300.0" x2="1858.0" y2="287.1" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1860.0" y1="300.0" x2="1848.9" y2="293.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="1760.0,170.3 1860.0,775.0" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="1860.0" y1="775.0" x2="1863.5" y2="762.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1860.0" y1="775.0" x2="1852.7" y2="764.3" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="2035.0,366.0 2035.0,416.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="2035.0,366.0 2029.0,377.0 2035.0,388.0 2041.0,377.0" fill="#1e1e1e" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="2035.0" y1="416.0" x2="2040.5" y2="404.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="2035.0" y1="416.0" x2="2029.5" y2="404.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="2035.0,706.0 2035.0,656.0" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="2035.0" y1="656.0" x2="2029.5" y2="667.8" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="2035.0" y1="656.0" x2="2040.5" y2="667.8" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="2035.0,844.0 2035.0,894.0" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="2035.0" y1="894.0" x2="2040.5" y2="882.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="2035.0" y1="894.0" x2="2029.5" y2="882.2" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="450.0,1249.2 350.0,1195.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="350.0" y1="1195.0" x2="357.7" y2="1205.4" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="350.0" y1="1195.0" x2="363.0" y2="1195.8" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="450.0,1283.4 350.0,1325.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="350.0" y1="1325.0" x2="363.0" y2="1325.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="350.0" y1="1325.0" x2="358.8" y2="1315.4" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="800.0,1260.0 900.0,1260.0" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="900.0" y1="1260.0" x2="888.2" y2="1254.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="900.0" y1="1260.0" x2="888.2" y2="1265.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="1250.0,1260.0 1350.0,1260.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="1350.0" y1="1260.0" x2="1338.2" y2="1254.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1350.0" y1="1260.0" x2="1338.2" y2="1265.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="175.0,1450.0 175.0,1400.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polyline points="625.0,1450.0 625.0,1400.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polyline points="1585.0,1450.0 1585.0,1400.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polyline points="2035.0,1450.0 2035.0,1400.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polyline points="175.0,1400.0 2035.0,1400.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polyline points="1075.0,1400.0 1075.0,1293.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="1075.0,1293.0 1085.0,1311.0 1065.0,1311.0" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.6"/>
+<polyline points="1672.5,676.0 1672.5,1450.0" fill="none" stroke="#b91c1c" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="1672.5" y1="1450.0" x2="1678.0" y2="1438.2" stroke="#b91c1c" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1672.5" y1="1450.0" x2="1667.0" y2="1438.2" stroke="#b91c1c" stroke-width="1.6" stroke-linecap="round"/>
+<polyline points="1672.5,1090.0 2122.5,1090.0 2122.5,1450.0" fill="none" stroke="#b91c1c" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="2122.5" y1="1450.0" x2="2128.0" y2="1438.2" stroke="#b91c1c" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="2122.5" y1="1450.0" x2="2117.0" y2="1438.2" stroke="#b91c1c" stroke-width="1.6" stroke-linecap="round"/>
+<text x="1682.5" y="1080" font-size="14" fill="#b91c1c" text-anchor="start">«catch»</text>
+<rect x="1390" y="770" width="262" height="275" fill="#ffffff" stroke="#757575" stroke-width="1" rx="0"/>
+<text x="1405" y="796" font-size="16" fill="#1e1e1e" text-anchor="start">범례</text>
+<polyline points="1405.0,828.0 1475.0,828.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<line x1="1475.0" y1="828.0" x2="1463.2" y2="822.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1475.0" y1="828.0" x2="1463.2" y2="833.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<text x="1495" y="833" font-size="14" fill="#1e1e1e" text-anchor="start">연관 Association</text>
+<polyline points="1405.0,866.0 1475.0,866.0" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<line x1="1475.0" y1="866.0" x2="1463.2" y2="860.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="1475.0" y1="866.0" x2="1463.2" y2="871.5" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round"/>
+<text x="1495" y="871" font-size="14" fill="#1e1e1e" text-anchor="start">의존 Dependency</text>
+<polyline points="1405.0,904.0 1475.0,904.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="1475.0,904.0 1457.0,914.0 1457.0,894.0" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.6"/>
+<text x="1495" y="909" font-size="14" fill="#1e1e1e" text-anchor="start">상속 Inheritance</text>
+<polyline points="1405.0,942.0 1475.0,942.0" fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-dasharray="7 5"/>
+<polygon points="1475.0,942.0 1457.0,952.0 1457.0,932.0" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.6"/>
+<text x="1495" y="947" font-size="14" fill="#1e1e1e" text-anchor="start">실체화 Realization</text>
+<polyline points="1475.0,980.0 1405.0,980.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="1475.0,980.0 1464.0,974.0 1453.0,980.0 1464.0,986.0" fill="#ffffff" stroke="#1e1e1e" stroke-width="1.6"/>
+<text x="1495" y="985" font-size="14" fill="#1e1e1e" text-anchor="start">집합 Aggregation</text>
+<polyline points="1475.0,1018.0 1405.0,1018.0" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+<polygon points="1475.0,1018.0 1464.0,1012.0 1453.0,1018.0 1464.0,1024.0" fill="#1e1e1e" stroke="#1e1e1e" stroke-width="1.6"/>
+<text x="1495" y="1023" font-size="14" fill="#1e1e1e" text-anchor="start">합성 Composition</text>
+</svg>
