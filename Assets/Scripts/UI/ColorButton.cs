@@ -21,6 +21,12 @@ public class ColorButton : MonoBehaviour
     [Tooltip("리셋 버튼의 배경색")]
     [SerializeField] private Color resetBackground = Color.white;
 
+    /// <summary>팝오버가 열릴 때 색상을 바꿀 대상을 교체한다.</summary>
+    public void SetTarget(ColorChanger newTarget)
+    {
+        target = newTarget;
+    }
+
     private void Awake()
     {
         ApplyVisual();
