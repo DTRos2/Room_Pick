@@ -1003,7 +1003,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &780500532
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2908,7 +2908,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1718889421
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3444,6 +3444,7 @@ GameObject:
   - component: {fileID: 2128054317}
   - component: {fileID: 2128054316}
   - component: {fileID: 2128054320}
+  - component: {fileID: 2128054321}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3559,6 +3560,20 @@ MonoBehaviour:
   - {fileID: 1504173694}
   worldCamera: {fileID: 0}
   screenOffset: {x: 0, y: 20}
+--- !u!114 &2128054321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128054315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 010b20c78858cf04a8bb17193f0240fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProductInfoController
+  popover: {fileID: 2128054320}
+  listCount: 5
 --- !u!1 &2132198187
 GameObject:
   m_ObjectHideFlags: 0
@@ -12837,6 +12852,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2034b6e3ec49fb64ca0c8687a5260fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProductTarget
+  searchKeyword: 소파
+  filter:
+    minPrice: 150000
+    requiredWords:
+    - 소파
+    - 쇼파
+    excludeWords:
+    - 커버
+    - 다리
+    - 부품
 --- !u!1 &4886617136583329098
 GameObject:
   m_ObjectHideFlags: 0
