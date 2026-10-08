@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /// <summary>
 /// 상품 링크를 기본 브라우저로 연다. 외부 API가 준 주소이므로 http/https만 허용한다.
 /// SerpApi가 주는 링크는 ader.naver.com 광고 추적 주소라 그대로 열면 네이버 로그인이 필요하다.
-/// 그래서 클릭한 시점에 리다이렉트를 따라가 판매처의 직접 주소를 찾아 연다.
+/// 그래서 클릭한 시점에 네이버 쪽 리다이렉트를 따라가 판매처의 직접 주소를 찾아 연다.
 /// </summary>
 public static class ProductLinkOpener
 {
@@ -37,6 +37,10 @@ public static class ProductLinkOpener
         var current = url;
         for (int hop = 0; hop < MaxHops; hop++)
         {
+            // 네이버 광고 주소만 따라간다. 판매처에 도착했으면 거기가 직접 주소이므로 더 요청하지 않는다.
+            // (판매처 서버가 응답하지 않으면 시간 초과까지 기다리게 되기 때문이다.)
+            if (!IsNaverHost(current)) return current;
+
             using var request = UnityWebRequest.Get(current);
             request.redirectLimit = 0;
             request.timeout = TimeoutSeconds;
@@ -56,6 +60,12 @@ public static class ProductLinkOpener
             current = next.AbsoluteUri;
         }
         return current;
+    }
+
+    static bool IsNaverHost(string url)
+    {
+        return Uri.TryCreate(url, UriKind.Absolute, out var uri)
+               && (uri.Host == "naver.com" || uri.Host.EndsWith(".naver.com", StringComparison.OrdinalIgnoreCase));
     }
 
     static bool IsOpenable(string link)

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -16,6 +17,15 @@ public class ProductPopover : MonoBehaviour
 
     private ProductTarget _current;
 
+    /// <summary>팝오버가 열릴 때(대상 오브젝트를 누를 때마다) 호출된다.</summary>
+    public event Action<ProductTarget> Opened;
+
+    /// <summary>팝오버가 닫힐 때 호출된다.</summary>
+    public event Action Closed;
+
+    /// <summary>색상 버튼이 들어 있는 패널. 다른 UI를 이 패널 위에 붙일 때 기준으로 쓴다.</summary>
+    public RectTransform Panel => panel;
+
     private void Awake()
     {
         if (worldCamera == null) worldCamera = Camera.main;
@@ -30,12 +40,16 @@ public class ProductPopover : MonoBehaviour
 
         panel.gameObject.SetActive(true);
         UpdatePosition();
+        Opened?.Invoke(target);
     }
 
     public void Close()
     {
+        if (_current == null && !panel.gameObject.activeSelf) return;
+
         _current = null;
         panel.gameObject.SetActive(false);
+        Closed?.Invoke();
     }
 
     private void LateUpdate()

@@ -7,7 +7,16 @@ using UnityEngine;
 [RequireComponent(typeof(ColorChanger), typeof(Collider))]
 public class ProductTarget : MonoBehaviour
 {
+    [Header("상품 검색")]
+    [Tooltip("이 오브젝트로 검색할 기본 검색어. 예: 소파. 비워 두면 상품을 검색하지 않는다.")]
+    [SerializeField] private string searchKeyword;
+    [Tooltip("부품·연관 상품을 거르는 기준. 필수 단어에 검색어(예: 소파, 쇼파)를 넣는다.")]
+    [SerializeField] private ProductFilter filter;
+
     private Collider _collider;
+
+    public SearchKeyword Keyword => new SearchKeyword(searchKeyword);
+    public ProductFilter Filter => filter;
 
     public ColorChanger ColorChanger { get; private set; }
 
