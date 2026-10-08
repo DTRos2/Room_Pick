@@ -26,3 +26,8 @@
 *.unitypackage
 *.app
 sysinfo.txt
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
