@@ -23,7 +23,18 @@ public static class ProductLinkOpener
             return false;
         }
 
-        var target = await ResolveDirectUrlAsync(product.Link);
+        var target = product.Link;
+        try
+        {
+            target = await ResolveDirectUrlAsync(product.Link);
+        }
+        catch (Exception e)
+        {
+            // 리다이렉트를 못 따라가도 원래 링크는 열 수 있게 한다.
+            Debug.LogWarning($"[ProductLinkOpener] 직접 주소 확인 실패, 원래 링크를 엽니다: {e.Message}");
+        }
+
+        Debug.Log($"[ProductLinkOpener] 링크 열기: {product.Link} -> {target}");
         Application.OpenURL(target);
         return true;
     }
@@ -37,9 +48,9 @@ public static class ProductLinkOpener
         var current = url;
         for (int hop = 0; hop < MaxHops; hop++)
         {
-            // 네이버 광고 주소만 따라간다. 판매처에 도착했으면 거기가 직접 주소이므로 더 요청하지 않는다.
-            // (판매처 서버가 응답하지 않으면 시간 초과까지 기다리게 되기 때문이다.)
-            if (!IsNaverHost(current)) return current;
+            // 네이버 광고 주소만 따라간다. 그 밖의 주소(판매처, 네이버 쇼핑 searchGate 등)는 요청해도
+            // 응답이 없어 시간 초과까지 기다리게 되므로 기다리지 않고 바로 연다.
+            if (!IsAdRedirectHost(current)) return current;
 
             using var request = UnityWebRequest.Get(current);
             request.redirectLimit = 0;
@@ -51,6 +62,7 @@ public static class ProductLinkOpener
             await completion.Task;
 
             var location = request.GetResponseHeader("Location");
+            Debug.Log($"[ProductLinkOpener] hop {hop}: HTTP {request.responseCode}, result={request.result}, error={request.error}, Location={location}");
             if (string.IsNullOrEmpty(location)) return current;
 
             // 상대 주소일 수 있으므로 현재 주소를 기준으로 절대 주소로 바꾼다.
@@ -62,10 +74,10 @@ public static class ProductLinkOpener
         return current;
     }
 
-    static bool IsNaverHost(string url)
+    static bool IsAdRedirectHost(string url)
     {
         return Uri.TryCreate(url, UriKind.Absolute, out var uri)
-               && (uri.Host == "naver.com" || uri.Host.EndsWith(".naver.com", StringComparison.OrdinalIgnoreCase));
+               && uri.Host.Equals("ader.naver.com", StringComparison.OrdinalIgnoreCase);
     }
 
     static bool IsOpenable(string link)

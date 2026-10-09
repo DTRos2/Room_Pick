@@ -79,5 +79,9 @@ public class ProductPopover : MonoBehaviour
         if (corners[0].y < 0f) shift.y = -corners[0].y;
         else if (corners[2].y > Screen.height) shift.y = Screen.height - corners[2].y;
         panel.position += (Vector3)shift;
+
+        // 글자가 화면 픽셀 경계에 걸쳐 흐려지지 않도록 위치를 정수 픽셀로 맞춘다.
+        Vector3 snapped = panel.position;
+        panel.position = new Vector3(Mathf.Round(snapped.x), Mathf.Round(snapped.y), snapped.z);
     }
 }

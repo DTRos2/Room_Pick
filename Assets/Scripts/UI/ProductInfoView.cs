@@ -11,25 +11,46 @@ using UnityEngine.UI;
 /// </summary>
 public sealed class ProductInfoView
 {
-    const float Margin = 8f, CardHeight = 56f, RowHeight = 48f, Gap = 4f, Pad = 4f, ArrowWidth = 28f;
+    const float Margin = 12f, CardHeight = 100f, RowHeight = 128f, Gap = 4f, Pad = 6f, ArrowWidth = 40f;
 
-    /// <summary>팝오버 세로 중앙에서 카드 아래쪽까지의 거리. 색상 버튼(중앙 기준 약 +25까지) 바로 위에 오도록 맞춘 값이다.</summary>
-    const float CardBottomOffset = 27f;
+    /// <summary>색상 버튼을 찾지 못했을 때 쓰는, 패널 바닥에서 카드 아래쪽까지의 거리.</summary>
+    const float FallbackBottomInset = 62f;
+
+    /// <summary>화면 오른쪽 끝에 고정되는 목록의 폭과 오른쪽 여백(Canvas 기준 해상도 단위).</summary>
+    const float ListWidth = 600f, ListRightMargin = 16f;
+
+    /// <summary>목록이 Canvas의 자식이라 팝오버와 함께 꺼지지 않으므로, 기준 오브젝트가 화면에 보일 때만 보이게 한다.</summary>
+    sealed class VisibilityFollower : MonoBehaviour
+    {
+        public GameObject Source;
+        CanvasGroup _group;
+
+        void OnEnable() => Apply();
+        void Update() => Apply();
+
+        void Apply()
+        {
+            if (_group == null) _group = GetComponent<CanvasGroup>();
+            bool visible = Source != null && Source.activeInHierarchy;
+            _group.alpha = visible ? 1f : 0f;
+            _group.blocksRaycasts = visible;
+        }
+    }
 
     static readonly Color Background = new Color(1f, 1f, 1f, 0.97f);
     static readonly Color RowBackground = new Color(0.96f, 0.96f, 0.96f, 0.97f);
-    static readonly Color Dark = new Color(0.12f, 0.12f, 0.12f);
-    static readonly Color Gray = new Color(0.45f, 0.45f, 0.45f);
+    static readonly Color Dark = new Color(0.04f, 0.04f, 0.04f);
+    static readonly Color Gray = new Color(0.3f, 0.3f, 0.3f);
     static readonly Color Placeholder = new Color(0.85f, 0.85f, 0.85f);
 
     struct Row
     {
         public GameObject Root;
         public RawImage Thumb;
-        public Text Price;
+        public Text Title, Price;
     }
 
-    readonly RectTransform _root;
+    readonly RectTransform _root, _popoverPanel;
     readonly ThumbnailLoader _thumbnails;
     readonly CancellationToken _lifetime;
     readonly Font _font;
@@ -37,7 +58,7 @@ public sealed class ProductInfoView
     readonly GameObject _listGroup;
     readonly List<Row> _rows = new List<Row>();
 
-    readonly GameObject _cardContent;
+    readonly GameObject _card, _cardContent;
     readonly RawImage _cardThumb;
     readonly Text _cardMall, _cardTitle, _cardPrice, _status, _arrowLabel;
     readonly Button _arrowButton;
@@ -56,25 +77,48 @@ public sealed class ProductInfoView
         // 팝오버 가로 폭에 맞춰 늘어나고, 세로는 팝오버 중앙을 기준으로 색상 버튼 위에 아래쪽을 맞춘다.
         _root = NewRect("ProductInfoView", popoverPanel);
         _root.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
-        _root.anchorMin = new Vector2(0f, 0.5f);
-        _root.anchorMax = new Vector2(1f, 0.5f);
-        _root.pivot = new Vector2(0.5f, 0f);
-        _root.offsetMin = new Vector2(Margin, 0f);
-        _root.offsetMax = new Vector2(-Margin, 0f);
-        _root.anchoredPosition = new Vector2(0f, CardBottomOffset);
+        _popoverPanel = popoverPanel;
+        _root.anchorMin = Vector2.zero;
+        _root.anchorMax = Vector2.one;
+        _root.pivot = new Vector2(0.5f, 0.5f);
+        FitToPanel();
 
         var rootLayout = _root.gameObject.AddComponent<VerticalLayoutGroup>();
         rootLayout.spacing = Gap;
         rootLayout.childControlWidth = rootLayout.childControlHeight = true;
-        rootLayout.childForceExpandWidth = true; // 카드·목록이 부모 폭에 맞게 펼쳐지도록 한다. 높이는 각자 정한다.
-        rootLayout.childForceExpandHeight = false;
-        _root.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        rootLayout.childForceExpandWidth = true; // 카드가 패널 안쪽 영역 전체를 채운다.
+        rootLayout.childForceExpandHeight = true;
 
         // 위쪽: 상품 목록(처음에는 접혀 있음)
-        var list = NewRect("List", _root);
+        // 팝오버가 아니라 Canvas 바로 아래에 두어, 팝오버 위치와 상관없이 화면 맨 오른쪽 가운데에 고정한다.
+        var canvasRoot = popoverPanel.GetComponentInParent<Canvas>().rootCanvas.transform;
+        var list = NewRect("ProductList", canvasRoot);
         _listGroup = list.gameObject;
+        list.anchorMin = list.anchorMax = new Vector2(1f, 0.5f);
+        list.pivot = new Vector2(1f, 0.5f);
+        list.sizeDelta = new Vector2(ListWidth, 0f);
+        list.anchoredPosition = new Vector2(-ListRightMargin, 0f);
+        list.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        // 색상 팝오버 패널과 같은 배경(스프라이트·색)을 목록 뒤에 깐다. 패널에 Image가 없으면 반투명 검정으로 대신한다.
+        var background = list.gameObject.AddComponent<Image>();
+        var panelImage = popoverPanel.GetComponent<Image>();
+        if (panelImage != null)
+        {
+            background.sprite = panelImage.sprite;
+            background.type = panelImage.type;
+            background.color = panelImage.color;
+            background.material = panelImage.material;
+        }
+        else
+        {
+            background.color = new Color(0f, 0f, 0f, 0.5f);
+        }
+        // 팝오버가 닫히거나 숨겨지면 목록도 함께 숨긴다.
+        list.gameObject.AddComponent<CanvasGroup>();
+        list.gameObject.AddComponent<VisibilityFollower>().Source = _root.gameObject;
         var listLayout = list.gameObject.AddComponent<VerticalLayoutGroup>();
-        listLayout.spacing = 2f;
+        listLayout.padding = new RectOffset((int)Margin, (int)Margin, (int)Margin, (int)Margin);
+        listLayout.spacing = 3f;
         listLayout.childControlWidth = listLayout.childControlHeight = true;
         listLayout.childForceExpandWidth = true;
         listLayout.childForceExpandHeight = false;
@@ -83,6 +127,7 @@ public sealed class ProductInfoView
 
         // 아래쪽: 최저가 카드
         var card = NewRect("Card", _root);
+        _card = card.gameObject;
         card.gameObject.AddComponent<LayoutElement>().preferredHeight = CardHeight;
         var cardImage = card.gameObject.AddComponent<Image>();
         cardImage.color = Background;
@@ -101,11 +146,11 @@ public sealed class ProductInfoView
 
         float textLeft = Pad + thumbSize + Pad;
         float textRight = ArrowWidth + Pad;
-        _cardMall = NewText("Mall", _cardContent.transform, 11, FontStyle.Normal, Gray, TextAnchor.MiddleLeft);
+        _cardMall = NewText("Mall", _cardContent.transform, 22, FontStyle.Normal, Gray, TextAnchor.MiddleLeft);
         Stretch(_cardMall.rectTransform, new Vector2(0f, 0.7f), Vector2.one, textLeft, 0f, textRight, 0f);
-        _cardTitle = NewText("Title", _cardContent.transform, 12, FontStyle.Normal, Dark, TextAnchor.MiddleLeft);
+        _cardTitle = NewText("Title", _cardContent.transform, 26, FontStyle.Bold, Dark, TextAnchor.MiddleLeft);
         Stretch(_cardTitle.rectTransform, new Vector2(0f, 0.38f), new Vector2(1f, 0.7f), textLeft, 0f, textRight, 0f);
-        _cardPrice = NewText("Price", _cardContent.transform, 14, FontStyle.Bold, Dark, TextAnchor.MiddleLeft);
+        _cardPrice = NewText("Price", _cardContent.transform, 34, FontStyle.Bold, Dark, TextAnchor.MiddleLeft);
         Stretch(_cardPrice.rectTransform, Vector2.zero, new Vector2(1f, 0.38f), textLeft, 0f, textRight, 0f);
 
         var arrow = NewRect("Arrow", _cardContent.transform);
@@ -118,10 +163,10 @@ public sealed class ProductInfoView
         _arrowButton = arrow.gameObject.AddComponent<Button>();
         _arrowButton.transition = Selectable.Transition.None;
         _arrowButton.onClick.AddListener(ToggleList);
-        _arrowLabel = NewText("Label", arrow, 18, FontStyle.Bold, Gray, TextAnchor.MiddleCenter);
+        _arrowLabel = NewText("Label", arrow, 28, FontStyle.Bold, Gray, TextAnchor.MiddleCenter);
         Stretch(_arrowLabel.rectTransform, Vector2.zero, Vector2.one, 0f, 0f, 0f, 0f);
 
-        _status = NewText("Status", card, 12, FontStyle.Normal, Gray, TextAnchor.MiddleCenter);
+        _status = NewText("Status", card, 22, FontStyle.Normal, Gray, TextAnchor.MiddleCenter);
         Stretch(_status.rectTransform, Vector2.zero, Vector2.one, Pad, 0f, Pad, 0f);
 
         Hide();
@@ -158,36 +203,71 @@ public sealed class ProductInfoView
             row.Root.SetActive(hasProduct);
             if (!hasProduct) continue;
 
+            row.Title.text = sortedProducts[i].Title;
             row.Price.text = FormatPrice(sortedProducts[i].Price);
             LoadThumbnail(row.Thumb, sortedProducts[i], _version);
         }
 
+        // 최저가 카드만 먼저 보여 주고, 오른쪽 화살표를 누르면 그 위로 오름차순 목록이 펼쳐진다.
         // 상품이 하나뿐이면 펼칠 목록이 없다.
+        _card.SetActive(true);
         _arrowButton.gameObject.SetActive(sortedProducts.Count > 1);
         SetExpanded(false);
+        FitToPanel();
         _root.gameObject.SetActive(true);
     }
 
     public void Hide()
     {
         _version++;
+        SetExpanded(false);
         _root.gameObject.SetActive(false);
     }
 
     public void Destroy()
     {
         if (_root != null) UnityEngine.Object.Destroy(_root.gameObject);
+        if (_listGroup != null) UnityEngine.Object.Destroy(_listGroup);
     }
 
     void ShowMessage(string message)
     {
         _version++;
         _products = Array.Empty<Product>();
+        _card.SetActive(true);
         _cardContent.SetActive(false);
         _status.gameObject.SetActive(true);
         _status.text = message;
         SetExpanded(false);
+        FitToPanel();
         _root.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// 카드를 패널 안에서 색상 버튼 줄 바로 위부터 패널 위쪽 여백까지 꽉 차게 맞춘다.
+    /// 버튼 위치를 실제로 읽으므로 패널이나 버튼 크기를 씬에서 바꿔도 따로 고칠 필요가 없다.
+    /// </summary>
+    void FitToPanel()
+    {
+        float bottomInset = FallbackBottomInset;
+
+        var buttons = _popoverPanel.GetComponentsInChildren<ColorButton>(true);
+        if (buttons.Length > 0)
+        {
+            Canvas.ForceUpdateCanvases(); // 켜진 직후에는 버튼 격자 배치가 아직일 수 있다.
+            var corners = new Vector3[4];
+            float top = float.NegativeInfinity;
+            foreach (var button in buttons)
+            {
+                ((RectTransform)button.transform).GetWorldCorners(corners);
+                foreach (var corner in corners)
+                    top = Mathf.Max(top, _popoverPanel.InverseTransformPoint(corner).y);
+            }
+            bottomInset = top - _popoverPanel.rect.yMin + Gap * 2f;
+        }
+
+        _root.offsetMin = new Vector2(Margin, bottomInset);
+        _root.offsetMax = new Vector2(-Margin, -Margin);
     }
 
     void ToggleList() => SetExpanded(!_expanded);
@@ -196,7 +276,7 @@ public sealed class ProductInfoView
     {
         _expanded = expanded;
         _listGroup.SetActive(expanded);
-        _arrowLabel.text = expanded ? "v" : ">";
+        _arrowLabel.text = expanded ? "<" : ">";
     }
 
     void OpenProduct(int index)
@@ -222,10 +302,14 @@ public sealed class ProductInfoView
         var thumb = thumbRect.gameObject.AddComponent<RawImage>();
         thumb.raycastTarget = false;
 
-        var price = NewText("Price", rect, 14, FontStyle.Bold, Dark, TextAnchor.MiddleLeft);
-        Stretch(price.rectTransform, Vector2.zero, Vector2.one, Pad + thumbSize + Pad, 0f, Pad, 0f);
+        float textLeft = Pad + thumbSize + Pad;
+        var title = NewText("Title", rect, 30, FontStyle.Bold, Dark, TextAnchor.MiddleLeft);
+        Stretch(title.rectTransform, new Vector2(0f, 0.42f), Vector2.one, textLeft, 0f, Pad, 0f);
 
-        return new Row { Root = rect.gameObject, Thumb = thumb, Price = price };
+        var price = NewText("Price", rect, 38, FontStyle.Bold, Dark, TextAnchor.MiddleLeft);
+        Stretch(price.rectTransform, Vector2.zero, new Vector2(1f, 0.42f), textLeft, 0f, Pad, 0f);
+
+        return new Row { Root = rect.gameObject, Thumb = thumb, Title = title, Price = price };
     }
 
     /// <summary>이미지를 받아 오는 동안 회색으로 두고, 도착했을 때 같은 화면(version)일 때만 적용한다.</summary>
