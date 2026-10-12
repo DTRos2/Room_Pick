@@ -26,6 +26,28 @@ public class ProductPopover : MonoBehaviour
     /// <summary>색상 버튼이 들어 있는 패널. 다른 UI를 이 패널 위에 붙일 때 기준으로 쓴다.</summary>
     public RectTransform Panel => panel;
 
+    /// <summary>
+    /// 패널 바닥에서 색상 버튼 줄의 위쪽 끝까지의 높이. 그 위 공간에 다른 UI를 넣을 때 기준으로 쓴다.
+    /// 버튼이 없으면 -1이다.
+    /// </summary>
+    public float MeasureButtonsTop()
+    {
+        if (colorButtons == null || colorButtons.Length == 0) return -1f;
+
+        Canvas.ForceUpdateCanvases(); // 패널이 켜진 직후에는 버튼 격자 배치가 아직일 수 있다.
+        Vector3[] corners = new Vector3[4];
+        float top = float.NegativeInfinity;
+        foreach (ColorButton button in colorButtons)
+        {
+            if (button == null) continue;
+            ((RectTransform)button.transform).GetWorldCorners(corners);
+            foreach (Vector3 corner in corners)
+                top = Mathf.Max(top, panel.InverseTransformPoint(corner).y);
+        }
+
+        return float.IsNegativeInfinity(top) ? -1f : top - panel.rect.yMin;
+    }
+
     private void Awake()
     {
         if (worldCamera == null) worldCamera = Camera.main;

@@ -11,6 +11,7 @@ public class ProductInfoController : MonoBehaviour
 {
     [SerializeField, Tooltip("비워 두면 같은 오브젝트에서 찾는다.")] ProductPopover popover;
     [SerializeField, Min(1)] int listCount = 5;
+    [SerializeField, Tooltip("상품 정보 화면의 크기·글자·색")] ProductInfoStyle style = new ProductInfoStyle();
 
     readonly Dictionary<ProductTarget, IReadOnlyList<Product>> _cache = new Dictionary<ProductTarget, IReadOnlyList<Product>>();
     readonly ThumbnailLoader _thumbnails = new ThumbnailLoader();
@@ -42,7 +43,19 @@ public class ProductInfoController : MonoBehaviour
             Debug.LogException(e);
         }
 
-        _view = new ProductInfoView(popover.Panel, _thumbnails, listCount, destroyCancellationToken);
+        try
+        {
+            var linkOpener = new ProductLinkOpener(new NaverAdRedirectResolver());
+            _view = new ProductInfoView(
+                popover.Panel, popover.MeasureButtonsTop, linkOpener, _thumbnails,
+                style ?? new ProductInfoStyle(), listCount, destroyCancellationToken);
+        }
+        catch (Exception e)
+        {
+            // 화면을 못 만들어도 씬의 나머지(색상 버튼 등)는 계속 동작해야 한다.
+            Debug.LogException(e, this);
+            enabled = false;
+        }
     }
 
     void OnEnable()
@@ -118,6 +131,13 @@ public class ProductInfoController : MonoBehaviour
         catch (OperationCanceledException)
         {
             // 다른 오브젝트를 눌렀거나 Play를 멈춘 경우다. 정상 동작이다.
+        }
+        catch (Exception e)
+        {
+            // async void라 예상 밖의 예외는 아무도 받지 못하고, 화면은 "찾는 중..."에 멈춘다. 오류 문구로 바꾼다.
+            if (token.IsCancellationRequested) return;
+            Debug.LogException(e);
+            _view.ShowError(MessageFor(ErrorCode.ApiResponseInvalid));
         }
         finally
         {
