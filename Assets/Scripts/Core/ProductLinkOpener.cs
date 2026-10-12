@@ -3,16 +3,18 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
-/// 상품 링크를 기본 브라우저로 연다. 외부 API가 준 주소이므로 http/https만 허용하고,
+/// 상품 링크를 IUrlLauncher로 연다. 외부 API가 준 주소이므로 http/https만 허용하고,
 /// 열기 전에 IDirectUrlResolver로 직접 주소를 찾아 보되 실패하면 원래 링크를 연다.
 /// </summary>
 public sealed class ProductLinkOpener : IProductLinkOpener
 {
     readonly IDirectUrlResolver _resolver;
+    readonly IUrlLauncher _launcher;
 
-    public ProductLinkOpener(IDirectUrlResolver resolver)
+    public ProductLinkOpener(IDirectUrlResolver resolver, IUrlLauncher launcher)
     {
         _resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
+        _launcher = launcher ?? throw new ArgumentNullException(nameof(launcher));
     }
 
     public async Task<bool> OpenAsync(Product product)
@@ -35,7 +37,7 @@ public sealed class ProductLinkOpener : IProductLinkOpener
             Debug.LogWarning($"[ProductLinkOpener] 직접 주소 확인 실패, 원래 링크를 엽니다: {e.Message}");
         }
 
-        Application.OpenURL(target);
+        _launcher.Open(target);
         return true;
     }
 }

@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 /// <summary>
-/// 오브젝트를 클릭해 팝오버가 열리면 그 오브젝트의 검색어·필터로 상품을 찾아 ProductInfoView에 보여 준다.
-/// ProductPopover가 있는 오브젝트(Canvas 등)에 붙인다. 같은 오브젝트는 한 번만 검색해서 SerpApi 호출을 아낀다.
+/// 오브젝트를 클릭해 팝오버가 열리면 그 오브젝트의 검색어·필터로 상품을 찾아 상품 정보 화면에 보여 준다.
+/// ProductPopover가 있는 오브젝트(Canvas 등)에 붙인다.
+/// 이 컴포넌트는 객체를 만들어 연결하는 조립 지점이고, 검색 흐름은 ProductInfoPresenter가 맡는다.
 /// </summary>
 public class ProductInfoController : MonoBehaviour
 {
@@ -13,14 +12,10 @@ public class ProductInfoController : MonoBehaviour
     [SerializeField, Min(1)] int listCount = 5;
     [SerializeField, Tooltip("상품 정보 화면의 크기·글자·색")] ProductInfoStyle style = new ProductInfoStyle();
 
-    readonly Dictionary<ProductTarget, IReadOnlyList<Product>> _cache = new Dictionary<ProductTarget, IReadOnlyList<Product>>();
     readonly ThumbnailLoader _thumbnails = new ThumbnailLoader();
 
-    ProductService _service;
-    RoomPickException _configError;
     ProductInfoView _view;
-    CancellationTokenSource _requestCts;
-    ProductTarget _pendingTarget;
+    ProductInfoPresenter _presenter;
 
     void Awake()
     {
@@ -32,23 +27,26 @@ public class ProductInfoController : MonoBehaviour
             return;
         }
 
+        IProductSearch search = null;
+        RoomPickException configError = null;
         try
         {
-            _service = new ProductService(new SerpApiProductRepository(SerpApiConfig.LoadFromEnvFile()));
+            search = new ProductService(new SerpApiProductRepository(SerpApiConfig.LoadFromEnvFile()));
         }
         catch (RoomPickException e)
         {
             // 키가 없는 경우. 클릭할 때 화면에 알리고, 원인은 Console에 남긴다.
-            _configError = e;
+            configError = e;
             Debug.LogException(e);
         }
 
         try
         {
-            var linkOpener = new ProductLinkOpener(new NaverAdRedirectResolver());
-            _view = new ProductInfoView(
+            var linkOpener = new ProductLinkOpener(new NaverAdRedirectResolver(), new UnityUrlLauncher());
+            _view = ProductInfoViewFactory.Create(
                 popover.Panel, popover.MeasureButtonsTop, linkOpener, _thumbnails,
                 style ?? new ProductInfoStyle(), listCount, destroyCancellationToken);
+            _presenter = new ProductInfoPresenter(search, configError, _view, destroyCancellationToken);
         }
         catch (Exception e)
         {
@@ -74,100 +72,17 @@ public class ProductInfoController : MonoBehaviour
 
     void OnDestroy()
     {
-        CancelRequest();
+        _presenter?.Dispose();
         _view?.Destroy();
         _thumbnails.Dispose();
     }
 
     async void OnOpened(ProductTarget target)
     {
-        // Play 중 스크립트가 다시 컴파일되면 Awake가 다시 돌지 않아 _view가 비어 있을 수 있다.
-        if (_view == null) return;
-
-        // 같은 오브젝트를 연타해도 이미 진행 중인 검색을 다시 보내지 않는다. (SerpApi 호출 한도 보호)
-        if (target == _pendingTarget) return;
-
-        CancelRequest();
-
-        if (string.IsNullOrWhiteSpace(target.Keyword.Base))
-        {
-            _view.Hide();
-            return;
-        }
-
-        if (_configError != null)
-        {
-            _view.ShowError(MessageFor(_configError.ErrorCode));
-            return;
-        }
-
-        if (_cache.TryGetValue(target, out var cached))
-        {
-            _view.ShowProducts(cached);
-            return;
-        }
-
-        _view.ShowLoading();
-        _pendingTarget = target;
-
-        // 다른 오브젝트를 누르면 이전 요청을 취소해, 늦게 온 응답이 새 화면을 덮어쓰지 않게 한다.
-        _requestCts = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);
-        var token = _requestCts.Token;
-
-        try
-        {
-            var products = await _service.SearchAsync(target.Keyword, target.Filter, token);
-            if (token.IsCancellationRequested) return;
-
-            _cache[target] = products;
-            _view.ShowProducts(products);
-        }
-        catch (RoomPickException e)
-        {
-            if (token.IsCancellationRequested) return;
-            Debug.LogException(e);
-            _view.ShowError(MessageFor(e.ErrorCode));
-        }
-        catch (OperationCanceledException)
-        {
-            // 다른 오브젝트를 눌렀거나 Play를 멈춘 경우다. 정상 동작이다.
-        }
-        catch (Exception e)
-        {
-            // async void라 예상 밖의 예외는 아무도 받지 못하고, 화면은 "찾는 중..."에 멈춘다. 오류 문구로 바꾼다.
-            if (token.IsCancellationRequested) return;
-            Debug.LogException(e);
-            _view.ShowError(MessageFor(ErrorCode.ApiResponseInvalid));
-        }
-        finally
-        {
-            if (_pendingTarget == target) _pendingTarget = null;
-        }
+        // Play 중 스크립트가 다시 컴파일되면 Awake가 다시 돌지 않아 _presenter가 비어 있을 수 있다.
+        if (_presenter == null) return;
+        await _presenter.OpenAsync(target);
     }
 
-    void OnClosed()
-    {
-        CancelRequest();
-        _view?.Hide();
-    }
-
-    void CancelRequest()
-    {
-        _pendingTarget = null;
-        if (_requestCts == null) return;
-        _requestCts.Cancel();
-        _requestCts.Dispose();
-        _requestCts = null;
-    }
-
-    static string MessageFor(ErrorCode code)
-    {
-        switch (code)
-        {
-            case ErrorCode.NetworkFailed: return "네트워크 연결을 확인해 주세요";
-            case ErrorCode.ApiQuotaExceeded: return "검색 한도를 초과했습니다";
-            case ErrorCode.ApiAuthFailed: return "API 키를 확인해 주세요";
-            default: return "상품 정보를 읽지 못했습니다";
-        }
-    }
+    void OnClosed() => _presenter?.Close();
 }
