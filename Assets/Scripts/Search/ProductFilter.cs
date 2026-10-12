@@ -34,7 +34,7 @@ public struct ProductFilter
     static bool HasWords(string[] words)
     {
         if (words == null) return false;
-        foreach (var word in words)
+        foreach (string word in words)
         {
             if (!string.IsNullOrWhiteSpace(word)) return true;
         }
@@ -44,7 +44,7 @@ public struct ProductFilter
     static bool ContainsAny(string text, string[] words)
     {
         if (words == null) return false;
-        foreach (var word in words)
+        foreach (string word in words)
         {
             if (string.IsNullOrWhiteSpace(word)) continue;
             if (text.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0) return true;

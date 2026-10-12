@@ -19,23 +19,23 @@ public static class ProductInfoViewFactory
         if (linkOpener == null) throw new ArgumentNullException(nameof(linkOpener));
         if (style == null) throw new ArgumentNullException(nameof(style));
 
-        var thumbnailPresenter = new ThumbnailPresenter(thumbnails, style.thumbnailPlaceholder, lifetime);
-        var kit = UguiKit.CreateDefault();
+        ThumbnailPresenter thumbnailPresenter = new ThumbnailPresenter(thumbnails, style.thumbnailPlaceholder, lifetime);
+        UguiKit kit = UguiKit.CreateDefault();
 
         // 카드 영역: 패널 안에서 색상 버튼 위부터 패널 위쪽 여백까지 꽉 채운다.
-        var root = UguiKit.NewRect("ProductInfoView", popoverPanel);
+        RectTransform root = UguiKit.NewRect("ProductInfoView", popoverPanel);
         root.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
         root.anchorMin = Vector2.zero;
         root.anchorMax = Vector2.one;
         root.pivot = new Vector2(0.5f, 0.5f);
-        var rootLayout = root.gameObject.AddComponent<VerticalLayoutGroup>();
+        VerticalLayoutGroup rootLayout = root.gameObject.AddComponent<VerticalLayoutGroup>();
         rootLayout.childControlWidth = rootLayout.childControlHeight = true;
         rootLayout.childForceExpandWidth = rootLayout.childForceExpandHeight = true;
 
         // 카드와 목록의 클릭 콜백이 뷰를 가리키므로, 뷰는 하위 뷰를 만든 뒤에 만든다.
         ProductInfoView view = null;
-        var card = new ProductCardView(root, kit, style, () => view.OpenProduct(0), () => view.ToggleList());
-        var list = new ProductListView(popoverPanel, root.gameObject, kit, style, listCount, index => view.OpenProduct(index));
+        ProductCardView card = new ProductCardView(root, kit, style, () => view.OpenProduct(0), () => view.ToggleList());
+        ProductListView list = new ProductListView(popoverPanel, root.gameObject, kit, style, listCount, index => view.OpenProduct(index));
 
         view = new ProductInfoView(root, measureContentBottom, style, linkOpener, thumbnailPresenter, card, list);
         view.FitToPanel();

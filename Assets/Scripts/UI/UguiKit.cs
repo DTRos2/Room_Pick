@@ -23,14 +23,14 @@ public sealed class UguiKit
 
     public static RectTransform NewRect(string name, Transform parent)
     {
-        var go = new GameObject(name, typeof(RectTransform));
+        GameObject go = new GameObject(name, typeof(RectTransform));
         go.transform.SetParent(parent, false);
         return (RectTransform)go.transform;
     }
 
     public Text NewText(string name, Transform parent, int size, FontStyle style, Color color, TextAnchor alignment)
     {
-        var text = NewRect(name, parent).gameObject.AddComponent<Text>();
+        Text text = NewRect(name, parent).gameObject.AddComponent<Text>();
         text.font = _font;
         text.fontSize = size;
         text.fontStyle = style;
@@ -65,7 +65,7 @@ public sealed class UguiKit
         button.targetGraphic = background;
         button.transition = Selectable.Transition.ColorTint;
 
-        var colors = button.colors;
+        ColorBlock colors = button.colors;
         colors.normalColor = Color.white;
         colors.highlightedColor = style.hover;
         colors.pressedColor = style.pressed;

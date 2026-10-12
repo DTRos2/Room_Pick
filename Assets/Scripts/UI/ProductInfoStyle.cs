@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// 상품 정보 화면의 크기·글자·색 설정. 값은 Canvas 기준 해상도(1920x1080) 단위다.
@@ -17,7 +18,9 @@ public sealed class ProductInfoStyle
     public float arrowWidth = 40f;
     public float listSpacing = 3f;
     public float listWidth = 600f;
-    public float listRightMargin = 16f;
+    [Tooltip("상품 목록과 색상 팝오버 사이 간격")]
+    [FormerlySerializedAs("listRightMargin")]
+    public float listGap = 16f;
 
     [Tooltip("색상 버튼을 찾지 못했을 때 쓰는, 패널 바닥에서 카드 아래쪽까지의 거리")]
     public float fallbackBottomInset = 62f;

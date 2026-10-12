@@ -19,12 +19,12 @@ public sealed class ThumbnailLoader : IDisposable
     public async Task<Texture2D> LoadAsync(string url, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(url)) return null;
-        if (_cache.TryGetValue(url, out var cached)) return cached;
+        if (_cache.TryGetValue(url, out Texture2D cached)) return cached;
 
-        using var request = UnityWebRequest.Get(url);
+        using UnityWebRequest request = UnityWebRequest.Get(url);
         request.timeout = TimeoutSeconds;
 
-        var completion = new TaskCompletionSource<bool>();
+        TaskCompletionSource<bool> completion = new TaskCompletionSource<bool>();
         request.SendWebRequest().completed += _ => completion.TrySetResult(true);
         using (cancellationToken.Register(() =>
         {
@@ -42,7 +42,7 @@ public sealed class ThumbnailLoader : IDisposable
         }
 
         // 큰 원본(300px)을 작은 칸에 줄여 그릴 때 흐려지거나 깨지지 않도록 밉맵을 만들고 트라일리니어로 그린다.
-        var texture = new Texture2D(2, 2, TextureFormat.RGBA32, true);
+        Texture2D texture = new Texture2D(2, 2, TextureFormat.RGBA32, true);
         if (!texture.LoadImage(request.downloadHandler.data, true))
         {
             UnityEngine.Object.Destroy(texture);
@@ -59,7 +59,7 @@ public sealed class ThumbnailLoader : IDisposable
 
     public void Dispose()
     {
-        foreach (var texture in _cache.Values)
+        foreach (Texture2D texture in _cache.Values)
         {
             if (texture != null) UnityEngine.Object.Destroy(texture);
         }

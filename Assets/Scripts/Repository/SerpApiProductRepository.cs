@@ -25,7 +25,7 @@ public class SerpApiProductRepository : IProductRepository
         if (string.IsNullOrWhiteSpace(keyword.Full))
             return Array.Empty<Product>();
 
-        using var request = UnityWebRequest.Get(BuildUrl(keyword));
+        using UnityWebRequest request = UnityWebRequest.Get(BuildUrl(keyword));
         request.timeout = _config.TimeoutSeconds;
 
         await SendAsync(request, cancellationToken);
@@ -44,8 +44,8 @@ public class SerpApiProductRepository : IProductRepository
 
     static async Task SendAsync(UnityWebRequest request, CancellationToken cancellationToken)
     {
-        var completion = new TaskCompletionSource<bool>();
-        var operation = request.SendWebRequest();
+        TaskCompletionSource<bool> completion = new TaskCompletionSource<bool>();
+        UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += _ => completion.TrySetResult(true);
 
         // 요청이 끝난 뒤에는 등록을 해제해, 이미 dispose된 request에 Abort가 호출되지 않게 한다.
@@ -78,7 +78,7 @@ public class SerpApiProductRepository : IProductRepository
                 throw new RoomPickException(ErrorCode.ApiResponseInvalid, $"SerpApi 응답 처리 실패: {request.error}");
             default:
                 // 5xx는 서버 쪽 일시 장애이므로 네트워크 실패로, 그 밖의 4xx는 잘못된 요청으로 본다.
-                var code = status >= 500 ? ErrorCode.NetworkFailed : ErrorCode.ApiResponseInvalid;
+                ErrorCode code = status >= 500 ? ErrorCode.NetworkFailed : ErrorCode.ApiResponseInvalid;
                 throw new RoomPickException(code, $"SerpApi 요청 실패 (HTTP {status}): {request.error}");
         }
     }
@@ -109,11 +109,11 @@ public class SerpApiProductRepository : IProductRepository
         if (response.shopping_results == null)
             return Array.Empty<Product>();
 
-        var products = new List<Product>(response.shopping_results.Length);
-        foreach (var item in response.shopping_results)
+        List<Product> products = new List<Product>(response.shopping_results.Length);
+        foreach (SerpApiShoppingItem item in response.shopping_results)
         {
             // 필수 값이 빠진 항목 하나 때문에 정상 상품까지 버리지 않고 그 항목만 건너뛴다.
-            if (ProductMapper.TryToProduct(item, out var product))
+            if (ProductMapper.TryToProduct(item, out Product product))
                 products.Add(product);
         }
 

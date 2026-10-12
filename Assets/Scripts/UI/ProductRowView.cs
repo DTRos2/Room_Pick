@@ -15,14 +15,14 @@ public sealed class ProductRowView
     {
         _root = UguiKit.NewRect("Row", parent);
         _root.gameObject.AddComponent<LayoutElement>().preferredHeight = style.rowHeight;
-        var background = _root.gameObject.AddComponent<Image>();
+        Image background = _root.gameObject.AddComponent<Image>();
         background.color = style.rowBackground;
-        var button = _root.gameObject.AddComponent<Button>();
+        Button button = _root.gameObject.AddComponent<Button>();
         UguiKit.ApplyHover(button, background, style);
         button.onClick.AddListener(() => onClick?.Invoke());
 
         float thumbSize = style.rowHeight - style.pad * 2f;
-        var thumbRect = UguiKit.NewRect("Thumb", _root);
+        RectTransform thumbRect = UguiKit.NewRect("Thumb", _root);
         UguiKit.PlaceLeftCenter(thumbRect, style.pad, thumbSize);
         _thumb = thumbRect.gameObject.AddComponent<RawImage>();
         _thumb.raycastTarget = false;

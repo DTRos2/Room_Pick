@@ -7,7 +7,7 @@ public static class WebUrl
 {
     public static bool IsOpenable(string link)
     {
-        return Uri.TryCreate(link, UriKind.Absolute, out var uri)
+        return Uri.TryCreate(link, UriKind.Absolute, out Uri uri)
                && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
     }
 }

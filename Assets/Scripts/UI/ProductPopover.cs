@@ -5,7 +5,6 @@ using UnityEngine;
 /// 상품 팝오버. 선택된 ProductTarget 위에 패널을 띄우고,
 /// 패널 안의 ColorButton들이 그 상품의 색상을 바꾸도록 연결한다.
 /// 이 컴포넌트는 항상 활성인 오브젝트(Canvas 등)에 붙이고, panel만 켜고 끈다.
-/// 패널 안에 상품명·가격 표시 자리(TMP_Text)를 두고, 내용은 이후 단계에서 채운다.
 /// </summary>
 public class ProductPopover : MonoBehaviour
 {
@@ -83,7 +82,7 @@ public class ProductPopover : MonoBehaviour
     private void UpdatePosition()
     {
         Vector3 screenPoint = worldCamera.WorldToScreenPoint(_current.PopoverAnchor);
-        if (screenPoint.z < 0f) // 카메라 뒤쪽
+        if (screenPoint.z < 0f)
         {
             panel.gameObject.SetActive(false);
             return;

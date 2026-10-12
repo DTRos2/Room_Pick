@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -48,7 +49,7 @@ public sealed class ProductInfoPresenter : IDisposable
             return;
         }
 
-        if (_cache.TryGet(target, out var cached))
+        if (_cache.TryGet(target, out IReadOnlyList<Product> cached))
         {
             _view.ShowProducts(cached);
             return;
@@ -59,11 +60,11 @@ public sealed class ProductInfoPresenter : IDisposable
 
         // 다른 오브젝트를 누르면 이전 요청을 취소해, 늦게 온 응답이 새 화면을 덮어쓰지 않게 한다.
         _requestCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime);
-        var token = _requestCts.Token;
+        CancellationToken token = _requestCts.Token;
 
         try
         {
-            var products = await _search.SearchAsync(target.Keyword, target.Filter, token);
+            IReadOnlyList<Product> products = await _search.SearchAsync(target.Keyword, target.Filter, token);
             if (token.IsCancellationRequested) return;
 
             _cache.Store(target, products);

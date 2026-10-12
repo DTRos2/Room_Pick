@@ -21,7 +21,7 @@ public class ProductService : IProductSearch
     public async Task<IReadOnlyList<Product>> SearchAsync(
         SearchKeyword keyword, ProductFilter filter, CancellationToken cancellationToken = default)
     {
-        var products = await _repository.SearchAsync(keyword, cancellationToken);
+        IReadOnlyList<Product> products = await _repository.SearchAsync(keyword, cancellationToken);
 
         return products
             .Where(filter.IsMatch)
@@ -35,7 +35,7 @@ public class ProductService : IProductSearch
         Product lowest = null;
         if (products == null) return null;
 
-        foreach (var product in products)
+        foreach (Product product in products)
         {
             if (lowest == null || product.Price < lowest.Price)
                 lowest = product;

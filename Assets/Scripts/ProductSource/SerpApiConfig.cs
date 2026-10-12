@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -27,13 +28,13 @@ public sealed class SerpApiConfig
     /// <summary>프로젝트 루트의 .env에서 설정을 읽는다. 키가 없으면 ApiAuthFailed를 던진다.</summary>
     public static SerpApiConfig LoadFromEnvFile()
     {
-        var path = Path.GetFullPath(Path.Combine(Application.dataPath, "..", ".env"));
-        var values = EnvFileReader.Read(path);
+        string path = Path.GetFullPath(Path.Combine(Application.dataPath, "..", ".env"));
+        Dictionary<string, string> values = EnvFileReader.Read(path);
 
-        if (!values.TryGetValue(ApiKeyName, out var apiKey) || string.IsNullOrWhiteSpace(apiKey))
+        if (!values.TryGetValue(ApiKeyName, out string apiKey) || string.IsNullOrWhiteSpace(apiKey))
             throw new RoomPickException(ErrorCode.ApiAuthFailed, $".env에 {ApiKeyName} 값이 없습니다. ({path})");
 
-        values.TryGetValue(EngineName, out var engine);
+        values.TryGetValue(EngineName, out string engine);
         return new SerpApiConfig(apiKey, string.IsNullOrWhiteSpace(engine) ? DefaultEngine : engine);
     }
 }

@@ -17,28 +17,28 @@ public sealed class NaverAdRedirectResolver : IDirectUrlResolver
     /// <summary>실패하면 마지막으로 알아낸 주소(없으면 받은 주소)를 돌려준다.</summary>
     public async Task<string> ResolveAsync(string url)
     {
-        var current = url;
+        string current = url;
         for (int hop = 0; hop < MaxHops; hop++)
         {
             // 광고 주소만 따라간다. 그 밖의 주소(판매처, 네이버 쇼핑 searchGate 등)는 요청해도
             // 응답이 없어 시간 초과까지 기다리게 되므로 기다리지 않고 그대로 쓴다.
             if (!IsAdRedirectHost(current)) return current;
 
-            using var request = UnityWebRequest.Get(current);
+            using UnityWebRequest request = UnityWebRequest.Get(current);
             request.redirectLimit = 0;
             request.timeout = TimeoutSeconds;
             request.SetRequestHeader("User-Agent", BrowserUserAgent);
 
-            var completion = new TaskCompletionSource<bool>();
+            TaskCompletionSource<bool> completion = new TaskCompletionSource<bool>();
             request.SendWebRequest().completed += _ => completion.TrySetResult(true);
             await completion.Task;
 
             // redirectLimit=0이면 Unity가 ConnectionError로 표시하지만, 응답 헤더는 읽을 수 있다.
-            var location = request.GetResponseHeader("Location");
+            string location = request.GetResponseHeader("Location");
             if (string.IsNullOrEmpty(location)) return current;
 
             // 상대 주소일 수 있으므로 현재 주소를 기준으로 절대 주소로 바꾼다.
-            if (!Uri.TryCreate(new Uri(current), location, out var next) || !WebUrl.IsOpenable(next.AbsoluteUri))
+            if (!Uri.TryCreate(new Uri(current), location, out Uri next) || !WebUrl.IsOpenable(next.AbsoluteUri))
                 return current;
 
             current = next.AbsoluteUri;
@@ -48,7 +48,7 @@ public sealed class NaverAdRedirectResolver : IDirectUrlResolver
 
     static bool IsAdRedirectHost(string url)
     {
-        return Uri.TryCreate(url, UriKind.Absolute, out var uri)
+        return Uri.TryCreate(url, UriKind.Absolute, out Uri uri)
                && uri.Host.Equals(AdHost, StringComparison.OrdinalIgnoreCase);
     }
 }
