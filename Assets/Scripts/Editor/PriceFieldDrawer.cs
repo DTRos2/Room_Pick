@@ -22,10 +22,10 @@ public class PriceFieldDrawer : PropertyDrawer
             return;
         }
 
-        var fieldRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+        Rect fieldRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
         EditorGUI.PropertyField(fieldRect, property, label);
 
-        var valueRect = new Rect(
+        Rect valueRect = new Rect(
             position.x + EditorGUIUtility.labelWidth,
             fieldRect.yMax + EditorGUIUtility.standardVerticalSpacing,
             position.width - EditorGUIUtility.labelWidth,

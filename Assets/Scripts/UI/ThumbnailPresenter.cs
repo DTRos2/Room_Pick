@@ -32,9 +32,9 @@ public sealed class ThumbnailPresenter
 
         try
         {
-            var texture = await _loader.LoadAsync(url, _lifetime);
+            Texture2D texture = await _loader.LoadAsync(url, _lifetime);
             if (texture == null || target == null) return;
-            if (!_tokens.TryGetValue(target, out var current) || current != token) return;
+            if (!_tokens.TryGetValue(target, out int current) || current != token) return;
 
             target.texture = texture;
             target.color = Color.white;

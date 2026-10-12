@@ -89,7 +89,7 @@ public class CameraController : MonoBehaviour
 
         float speed = moveSpeed * (keyboard.leftShiftKey.isPressed ? sprintMultiplier : 1f);
         Vector3 step = direction * (speed * Time.deltaTime);
-        step.y = eyeHeight - transform.position.y; // 눈높이 고정
+        step.y = eyeHeight - transform.position.y;
 
         _controller.Move(step);
     }

@@ -25,10 +25,10 @@ public sealed class ProductLinkOpener : IProductLinkOpener
             return false;
         }
 
-        var target = product.Link;
+        string target = product.Link;
         try
         {
-            var resolved = await _resolver.ResolveAsync(product.Link);
+            string resolved = await _resolver.ResolveAsync(product.Link);
             if (WebUrl.IsOpenable(resolved)) target = resolved;
         }
         catch (Exception e)

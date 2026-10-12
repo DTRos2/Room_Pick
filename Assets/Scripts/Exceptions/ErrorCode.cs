@@ -1,7 +1,5 @@
 /// <summary>
 /// RoomPickException이 나타내는 오류 종류.
-/// NetworkFailed, ApiQuotaExceeded는 FallbackProductRepository가 잡아 예비 JSON으로 대체하고,
-/// ApiAuthFailed, ApiResponseInvalid는 RoomPickManager가 잡아 ErrorNotifierUI로 알린다.
 /// </summary>
 public enum ErrorCode
 {

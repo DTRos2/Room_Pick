@@ -22,7 +22,6 @@ public class ObjectPicker : MonoBehaviour
         Pointer pointer = Pointer.current;
         if (pointer == null || !pointer.press.wasPressedThisFrame) return;
 
-        // UI 위 클릭은 버튼 등이 처리한다.
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
 
         Ray ray = pickCamera.ScreenPointToRay(pointer.position.ReadValue());

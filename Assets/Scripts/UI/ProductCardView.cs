@@ -20,9 +20,9 @@ public sealed class ProductCardView
     {
         _root = UguiKit.NewRect("Card", parent);
         _root.gameObject.AddComponent<LayoutElement>().preferredHeight = style.cardHeight;
-        var background = _root.gameObject.AddComponent<Image>();
+        Image background = _root.gameObject.AddComponent<Image>();
         background.color = style.cardBackground;
-        var button = _root.gameObject.AddComponent<Button>();
+        Button button = _root.gameObject.AddComponent<Button>();
         UguiKit.ApplyHover(button, background, style);
         button.onClick.AddListener(() => onClick?.Invoke());
 
@@ -30,7 +30,7 @@ public sealed class ProductCardView
         UguiKit.Stretch(_content.GetComponent<RectTransform>(), Vector2.zero, Vector2.one, 0f, 0f, 0f, 0f);
 
         float thumbSize = style.cardHeight - style.pad * 2f;
-        var thumbRect = UguiKit.NewRect("Thumb", _content.transform);
+        RectTransform thumbRect = UguiKit.NewRect("Thumb", _content.transform);
         UguiKit.PlaceLeftCenter(thumbRect, style.pad, thumbSize);
         _thumb = thumbRect.gameObject.AddComponent<RawImage>();
         _thumb.raycastTarget = false;
@@ -44,7 +44,7 @@ public sealed class ProductCardView
         _price = kit.NewText("Price", _content.transform, style.cardPriceFont, FontStyle.Bold, style.darkText, TextAnchor.MiddleLeft);
         UguiKit.Stretch(_price.rectTransform, Vector2.zero, new Vector2(1f, 0.38f), textLeft, 0f, textRight, 0f);
 
-        var arrow = UguiKit.NewRect("Arrow", _content.transform);
+        RectTransform arrow = UguiKit.NewRect("Arrow", _content.transform);
         arrow.anchorMin = new Vector2(1f, 0f);
         arrow.anchorMax = Vector2.one;
         arrow.pivot = new Vector2(1f, 0.5f);

@@ -9,19 +9,19 @@ public static class EnvFileReader
     /// <summary>파일이 없으면 빈 사전을 돌려준다.</summary>
     public static Dictionary<string, string> Read(string path)
     {
-        var values = new Dictionary<string, string>();
+        Dictionary<string, string> values = new Dictionary<string, string>();
         if (!File.Exists(path)) return values;
 
-        foreach (var rawLine in File.ReadAllLines(path))
+        foreach (string rawLine in File.ReadAllLines(path))
         {
-            var line = rawLine.Trim();
+            string line = rawLine.Trim();
             if (line.Length == 0 || line.StartsWith("#")) continue;
 
             int separator = line.IndexOf('=');
             if (separator <= 0) continue;
 
-            var key = line.Substring(0, separator).Trim();
-            var value = line.Substring(separator + 1).Trim().Trim('"', '\'');
+            string key = line.Substring(0, separator).Trim();
+            string value = line.Substring(separator + 1).Trim().Trim('"', '\'');
             values[key] = value;
         }
         return values;
