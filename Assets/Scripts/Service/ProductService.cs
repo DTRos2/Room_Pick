@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 /// 상품을 조회하고, ProductFilter로 거른 뒤 가격 오름차순으로 정렬한다.
 /// 필터를 거친 뒤에 최저가를 고르므로 부품·소품이 최저가로 추천되지 않는다.
 /// </summary>
-public class ProductService
+public class ProductService : IProductSearch
 {
     readonly IProductRepository _repository;
 
