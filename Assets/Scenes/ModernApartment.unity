@@ -838,6 +838,10 @@ MonoBehaviour:
   eyeHeight: 1.65
   bodyRadius: 0.3
   bodyHeight: 1.8
+  nearClip: 0.05
+  boundaryNamePrefixes:
+  - sm_walls
+  wallMargin: 0.1
 --- !u!143 &330585549
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3944,6 +3948,11 @@ MonoBehaviour:
   m_LayoutPriority: 1
   m_MaxWidth: -1
   m_MaxHeight: -1
+--- !u!1 &1804632559 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2403120980192283655, guid: d90aa44439c58494f89a227c82331b03, type: 3}
+  m_PrefabInstance: {fileID: 5287903919449727101}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1863672574
 GameObject:
   m_ObjectHideFlags: 0
@@ -7509,12 +7518,13 @@ GameObject:
   - component: {fileID: 6519186094687373958}
   - component: {fileID: 2240169365635305493}
   - component: {fileID: 5590618084626109847}
+  - component: {fileID: 6519186094687373959}
   m_Layer: 0
   m_Name: sm_door.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!33 &1551932237186289887
 MeshFilter:
@@ -13730,6 +13740,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4817401527790303364, guid: d90aa44439c58494f89a227c82331b03, type: 3}
   m_PrefabInstance: {fileID: 5287903919449727101}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4666893742243579008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804632559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0307c8dfdefba294f838c0c30677921f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoDoor
+  player: {fileID: 0}
+  openAngle: 90
+  openDistance: 2
+  closeDistance: 2.6
+  angularSpeed: 120
+  authoredPoseIsOpen: 0
+  closedYaw: -90
 --- !u!23 &4682393640273080261
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14485,6 +14514,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: sm_door
       objectReference: {fileID: 0}
+    - target: {fileID: 2403120980192283655, guid: d90aa44439c58494f89a227c82331b03, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4817401527790303364, guid: d90aa44439c58494f89a227c82331b03, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.0160472
@@ -14532,7 +14565,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2403120980192283655, guid: d90aa44439c58494f89a227c82331b03, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4666893742243579008}
   m_SourcePrefab: {fileID: 100100000, guid: d90aa44439c58494f89a227c82331b03, type: 3}
 --- !u!1001 &5298102075582522810
 PrefabInstance:
@@ -16558,6 +16594,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 543450651732381814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6519186094687373959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551141645024512081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0307c8dfdefba294f838c0c30677921f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoDoor
+  player: {fileID: 0}
+  openAngle: 90
+  openDistance: 2
+  closeDistance: 2.6
+  angularSpeed: 120
+  authoredPoseIsOpen: 0
+  closedYaw: -90
 --- !u!4 &6528906431889796179
 Transform:
   m_ObjectHideFlags: 0
@@ -16987,13 +17042,33 @@ GameObject:
   - component: {fileID: 1921982111821853877}
   - component: {fileID: 4332690960467440046}
   - component: {fileID: 3003124543755014757}
+  - component: {fileID: 6837482352570620902}
   m_Layer: 0
   m_Name: sm_door.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6837482352570620902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6837482352570620901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0307c8dfdefba294f838c0c30677921f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoDoor
+  player: {fileID: 0}
+  openAngle: 90
+  openDistance: 2
+  closeDistance: 2.6
+  angularSpeed: 120
+  authoredPoseIsOpen: 1
+  closedYaw: -90
 --- !u!4 &6846472745201103234
 Transform:
   m_ObjectHideFlags: 0
@@ -19545,13 +19620,33 @@ GameObject:
   - component: {fileID: 1863215107881742179}
   - component: {fileID: 120080832091368757}
   - component: {fileID: 4682393640273080261}
+  - component: {fileID: 8517697793012225810}
   m_Layer: 0
   m_Name: sm_door.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8517697793012225810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8517697793012225809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0307c8dfdefba294f838c0c30677921f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoDoor
+  player: {fileID: 0}
+  openAngle: 90
+  openDistance: 2
+  closeDistance: 2.6
+  angularSpeed: 120
+  authoredPoseIsOpen: 0
+  closedYaw: -90
 --- !u!33 &8525028936134241445
 MeshFilter:
   m_ObjectHideFlags: 0
