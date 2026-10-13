@@ -21,6 +21,13 @@ public sealed class UguiKit
         return new UguiKit(Font.CreateDynamicFontFromOSFont(FontNames, 16));
     }
 
+    /// <summary>씬에 미리 만들어 둔 UI의 모든 글자에 한글이 나오는 글꼴을 적용한다.</summary>
+    public void ApplyFont(Transform root)
+    {
+        foreach (Text text in root.GetComponentsInChildren<Text>(true))
+            text.font = _font;
+    }
+
     public static RectTransform NewRect(string name, Transform parent)
     {
         GameObject go = new GameObject(name, typeof(RectTransform));
