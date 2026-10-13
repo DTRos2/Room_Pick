@@ -30,6 +30,9 @@ public class ProductTarget : MonoBehaviour
         }
     }
 
+    /// <summary>선택 버튼을 띄울 기준 월드 좌표(오브젝트 중심).</summary>
+    public Vector3 CenterPoint => _collider.bounds.center;
+
     private void Awake()
     {
         _collider = GetComponent<Collider>();
