@@ -63,13 +63,19 @@ public class SelectButtonLayer : MonoBehaviour
         rect.pivot = new Vector2(0.5f, 0.5f);
         rect.sizeDelta = ButtonSize;
 
-        Image background = rect.gameObject.AddComponent<Image>();
-        background.color = style.cardBackground;
+        // 팝오버와 같은 어두운 반투명 알약. 높이의 절반을 반지름으로 주면 양끝이 둥글어진다.
+        RoundedRect background = rect.gameObject.AddComponent<RoundedRect>();
+        background.Radius = ButtonSize.y * 0.5f;
         Button button = rect.gameObject.AddComponent<Button>();
-        UguiKit.ApplyHover(button, background, style);
+        UguiKit.ApplyHover(button, background, style.panelColor, style.rowHoverColor, style.rowPressedColor);
         button.onClick.AddListener(() => _popover.Open(target));
 
-        Text text = kit.NewText("Label", rect, style.cardTitleFont, FontStyle.Bold, style.darkText, TextAnchor.MiddleCenter);
+        // 밝은 방 위에서도 버튼이 떠 보이도록 은은한 그림자를 둔다.
+        Shadow shadow = rect.gameObject.AddComponent<Shadow>();
+        shadow.effectColor = new Color(0f, 0f, 0f, 0.3f);
+        shadow.effectDistance = new Vector2(0f, -3f);
+
+        Text text = kit.NewText("Label", rect, style.cardTitleFont, FontStyle.Bold, style.lightText, TextAnchor.MiddleCenter);
         UguiKit.Stretch(text.rectTransform, Vector2.zero, Vector2.one, 0f, 0f, 0f, 0f);
         text.text = Label;
 
