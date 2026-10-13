@@ -11,8 +11,9 @@ public static class ProductInfoViewFactory
 {
     /// <param name="popoverPanel">이 화면을 안에 넣을 색상 팝오버 패널</param>
     /// <param name="measureContentBottom">패널 바닥에서 카드 아래쪽까지 비워 둘 높이를 알려 주는 함수. 음수면 모른다는 뜻이다.</param>
+    /// <param name="onClose">팝오버 오른쪽 위 닫기(×) 버튼을 눌렀을 때</param>
     public static ProductInfoView Create(
-        RectTransform popoverPanel, Func<float> measureContentBottom, IProductLinkOpener linkOpener,
+        RectTransform popoverPanel, Func<float> measureContentBottom, Action onClose, IProductLinkOpener linkOpener,
         ThumbnailLoader thumbnails, ProductInfoStyle style, int listCount, CancellationToken lifetime)
     {
         if (popoverPanel == null) throw new ArgumentNullException(nameof(popoverPanel));
@@ -37,7 +38,9 @@ public static class ProductInfoViewFactory
         ProductCardView card = new ProductCardView(root, kit, style, () => view.OpenProduct(0), () => view.ToggleList());
         ProductListView list = new ProductListView(popoverPanel, root.gameObject, kit, style, listCount, index => view.OpenProduct(index));
 
-        view = new ProductInfoView(root, measureContentBottom, style, linkOpener, thumbnailPresenter, card, list);
+        PopoverChromeView chrome = new PopoverChromeView(popoverPanel, kit, style, onClose);
+
+        view = new ProductInfoView(root, measureContentBottom, style, linkOpener, thumbnailPresenter, card, list, chrome);
         view.FitToPanel();
         view.Hide();
         return view;

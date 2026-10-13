@@ -82,4 +82,57 @@ public sealed class UguiKit
         colors.fadeDuration = 0.08f;
         button.colors = colors;
     }
+
+    /// <summary>
+    /// 어두운 배경용 hover. 그래픽 색은 흰색으로 두고, 평소·hover·누름 색을 Button이 정한다.
+    /// 흰 배경용 ApplyHover는 색을 곱해 어둡게 만들 뿐이라 어두운 배경에서는 변화가 거의 없다.
+    /// </summary>
+    public static void ApplyHover(Button button, Graphic background, Color normal, Color hover, Color pressed)
+    {
+        background.color = Color.white;
+        button.targetGraphic = background;
+        button.transition = Selectable.Transition.ColorTint;
+
+        ColorBlock colors = button.colors;
+        colors.normalColor = normal;
+        colors.highlightedColor = hover;
+        colors.pressedColor = pressed;
+        colors.selectedColor = normal; // 클릭한 뒤에도 눌린 색이 남지 않게 한다.
+        colors.disabledColor = normal;
+        colors.colorMultiplier = 1f;
+        colors.fadeDuration = 0.08f;
+        button.colors = colors;
+    }
+
+    static readonly TextGenerator Measurer = new TextGenerator();
+
+    /// <summary>
+    /// 글이 폭 안에서 maxLines줄에 들어가게 넣는다. 넘치면 뒤를 잘라 …을 붙인다.
+    /// 기본 Text에는 말줄임이 없어서, 글자 수를 줄여 가며 직접 잰다.
+    /// </summary>
+    public static void SetTextWithEllipsis(Text text, string value, float width, int maxLines)
+    {
+        TextGenerationSettings settings = text.GetGenerationSettings(new Vector2(width, 10000f));
+        if (CountLines(value, settings) <= maxLines)
+        {
+            text.text = value;
+            return;
+        }
+
+        // 줄 수에 맞는 가장 긴 앞부분을 이분 탐색으로 찾는다.
+        int low = 0, high = value.Length;
+        while (low < high)
+        {
+            int mid = (low + high + 1) / 2;
+            if (CountLines(value.Substring(0, mid).TrimEnd() + "…", settings) <= maxLines) low = mid;
+            else high = mid - 1;
+        }
+        text.text = value.Substring(0, low).TrimEnd() + "…";
+    }
+
+    static int CountLines(string value, TextGenerationSettings settings)
+    {
+        Measurer.Populate(value, settings);
+        return Measurer.lineCount;
+    }
 }

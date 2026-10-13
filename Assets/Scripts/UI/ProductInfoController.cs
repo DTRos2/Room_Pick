@@ -44,7 +44,7 @@ public class ProductInfoController : MonoBehaviour
         {
             IProductLinkOpener linkOpener = new ProductLinkOpener(new NaverAdRedirectResolver(), new UnityUrlLauncher());
             _view = ProductInfoViewFactory.Create(
-                popover.Panel, popover.MeasureButtonsTop, linkOpener, _thumbnails,
+                popover.Panel, popover.MeasureButtonsTop, popover.Close, linkOpener, _thumbnails,
                 style ?? new ProductInfoStyle(), listCount, destroyCancellationToken);
             _presenter = new ProductInfoPresenter(search, configError, _view, destroyCancellationToken);
         }

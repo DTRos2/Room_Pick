@@ -31,10 +31,20 @@ public class ColorChanger : MonoBehaviour
         _originalColor = _material.GetColor(BaseColorId);
     }
 
+    /// <summary>색상이 바뀔 때마다 불린다. 어떤 색이 선택됐는지 표시하는 UI가 듣는다.</summary>
+    public event System.Action Changed;
+
+    /// <summary>지금 적용된 색상. 머티리얼이 없으면 투명이다.</summary>
+    public Color CurrentColor => _material != null ? _material.GetColor(BaseColorId) : Color.clear;
+
+    /// <summary>처음 색상</summary>
+    public Color OriginalColor => _originalColor;
+
     public void SetColor(Color color)
     {
         if (_material == null) return;
         _material.SetColor(BaseColorId, color);
+        Changed?.Invoke();
     }
 
     public void ResetColor()
