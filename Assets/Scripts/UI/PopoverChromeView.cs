@@ -42,7 +42,7 @@ public sealed class PopoverChromeView
         _colorLabel.gameObject.SetActive(buttonsTop >= 0f);
         if (buttonsTop < 0f) return;
 
-        _colorLabel.anchoredPosition = new Vector2(_style.margin, buttonsTop + _style.gap);
+        _colorLabel.anchoredPosition = new Vector2(_style.margin, buttonsTop + _style.colorLabelGap);
     }
 
     public void Destroy()

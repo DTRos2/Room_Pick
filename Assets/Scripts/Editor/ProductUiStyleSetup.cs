@@ -59,7 +59,7 @@ public static class ProductUiStyleSetup
         }
 
         RectTransform panel = popover.Panel;
-        float required = buttonsTop + style.gap * 2f + style.labelHeight + style.cardHeight + style.margin;
+        float required = buttonsTop + style.colorLabelGap + style.labelHeight + style.gap + style.cardHeight + style.margin;
         float shortage = Mathf.Ceil(required - panel.rect.height);
         if (shortage <= 0f)
         {

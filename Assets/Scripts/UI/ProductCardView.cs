@@ -88,12 +88,12 @@ public sealed class ProductCardView
         _status.text = message;
     }
 
-    /// <summary>목록이 펼쳐졌으면 "접기", 접혀 있으면 "다른 상품 N개 보기"를 그린다.</summary>
+    /// <summary>목록이 펼쳐졌으면 "목록 접기", 접혀 있으면 "다른 상품 N개 보기"를 그린다.</summary>
     public void SetExpanded(bool expanded)
     {
         _expanded = expanded;
         RefreshToggleLabel();
     }
 
-    void RefreshToggleLabel() => _toggleLabel.text = _expanded ? "접기" : $"다른 상품 {_otherCount}개 보기";
+    void RefreshToggleLabel() => _toggleLabel.text = _expanded ? "목록 접기" : $"다른 상품 {_otherCount}개 보기";
 }

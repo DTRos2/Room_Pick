@@ -84,7 +84,7 @@ public sealed class ProductInfoView : IProductInfoView
     {
         float measured = _measureContentBottom != null ? _measureContentBottom() : -1f;
         // 카드 아래에는 "색상" 라벨 한 줄이 들어가므로 그만큼 더 비운다.
-        float bottomInset = measured >= 0f ? measured + _style.gap * 2f + _style.labelHeight : _style.fallbackBottomInset;
+        float bottomInset = measured >= 0f ? measured + _style.colorLabelGap + _style.labelHeight + _style.gap : _style.fallbackBottomInset;
         _chrome.PlaceColorLabel(measured);
 
         _root.offsetMin = new Vector2(_style.margin, bottomInset);

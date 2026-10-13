@@ -34,6 +34,8 @@ public sealed class ProductInfoStyle
     public float smallRadius = 6f;
     [Tooltip("목록 위 라벨과 '색상' 라벨 한 줄의 높이")]
     public float labelHeight = 26f;
+    [Tooltip("색상 라벨과 색상 버튼 줄 사이 간격. 선택 링이 버튼 위로 나오는 만큼 넉넉히 둔다.")]
+    public float colorLabelGap = 10f;
     [Tooltip("팝오버 오른쪽 위 닫기(×) 버튼 크기")]
     public float closeSize = 28f;
 
@@ -49,7 +51,7 @@ public sealed class ProductInfoStyle
     public int toggleFont = 18;
     public int statusFont = 22;
     public int labelFont = 18;
-    public int badgeFont = 13;
+    public int badgeFont = 14;
 
     [Header("Colors")]
     public Color cardBackground = new Color(1f, 1f, 1f, 0.97f);
@@ -71,4 +73,7 @@ public sealed class ProductInfoStyle
     public Color mutedText = new Color(0.72f, 0.75f, 0.8f);
     [Tooltip("가격·뱃지 등 강조하는 포인트 파랑")]
     public Color accent = new Color(0.36f, 0.64f, 1f);
+    [Tooltip("최저가 뱃지 바탕색. 가격의 파랑과 다른 색이어야 눈에 띈다.")]
+    public Color badgeColor = new Color(1f, 0.78f, 0.28f);
+    public Color badgeText = new Color(0.14f, 0.12f, 0.06f);
 }
