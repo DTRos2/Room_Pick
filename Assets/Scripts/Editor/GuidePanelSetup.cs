@@ -11,7 +11,7 @@ using UnityEngine.UI;
 /// </summary>
 public static class GuidePanelSetup
 {
-    private const float PanelWidth = 900f;
+    private const float PanelWidth = 960f;
     private const float KeySize = 36f;
 
     private static readonly Color PanelColor = new Color(0.11f, 0.12f, 0.15f, 0.92f);
@@ -31,7 +31,7 @@ public static class GuidePanelSetup
         ((box, kit) => NewKey(box, kit, "우클릭", 84f), "누른 채 시점 돌리기"),
         ((box, kit) => NewPill(box, kit, "선택"), "가구 위 버튼으로 선택"),
         ((box, kit) => NewColorDots(box), "색 바꾸기·되돌리기"),
-        ((box, kit) => NewProductCard(box), "상품 카드로 판매 페이지"),
+        ((box, kit) => NewProductCard(box), "카드 눌러 상품 보기"),
     };
 
     [MenuItem("RoomPick/안내창 만들기")]
@@ -155,7 +155,10 @@ public static class GuidePanelSetup
         BuildGrid(card, kit);
 
         Text hint = kit.NewText("Hint", card, 20, FontStyle.Normal, HintTextColor, TextAnchor.MiddleCenter);
-        hint.text = "빈 곳 클릭으로 가구 창 닫기 · H 키나 오른쪽 위 ? 버튼으로 다시 보기";
+        hint.text = "H 키 · ? 버튼으로 다시 보기";
+
+        // 빈 칸을 하나 끼워 안내문과 시작하기 버튼 사이를 넓힌다. 간격은 Spacer의 Preferred Height로 고친다.
+        UguiKit.NewRect("Spacer", card).gameObject.AddComponent<LayoutElement>().preferredHeight = 4f;
 
         startButton = BuildStartButton(card, kit, style);
         return overlay;
@@ -173,7 +176,7 @@ public static class GuidePanelSetup
     {
         RectTransform grid = UguiKit.NewRect("Grid", card);
         GridLayoutGroup layout = grid.gameObject.AddComponent<GridLayoutGroup>();
-        layout.cellSize = new Vector2(406f, 72f);
+        layout.cellSize = new Vector2(436f, 72f);
         layout.spacing = new Vector2(24f, 16f);
         layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         layout.constraintCount = 2;
@@ -198,6 +201,7 @@ public static class GuidePanelSetup
         RectTransform iconBox = UguiKit.NewRect("Icon", cell.rectTransform);
         LayoutElement iconSize = iconBox.gameObject.AddComponent<LayoutElement>();
         iconSize.minWidth = iconSize.preferredWidth = 164f;
+        iconSize.flexibleWidth = 0f;
         HorizontalLayoutGroup iconLayout = iconBox.gameObject.AddComponent<HorizontalLayoutGroup>();
         iconLayout.spacing = 4f;
         iconLayout.childAlignment = TextAnchor.MiddleLeft;
