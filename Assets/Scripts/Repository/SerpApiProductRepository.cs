@@ -6,13 +6,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// UnityWebRequest로 SerpApi(engine=naver)를 호출해 IProductRepository를 구현한다.
+/// UnityWebRequest로 프록시(SerpApi engine=naver를 대신 호출)를 거쳐 IProductRepository를 구현한다.
 /// 색상을 합친 전체 검색어로 요청하고, 실패하면 RoomPickException(ErrorCode)을 던진다.
 /// </summary>
 public class SerpApiProductRepository : IProductRepository
 {
-    const string Endpoint = "https://serpapi.com/search.json";
-
     readonly SerpApiConfig _config;
 
     public SerpApiProductRepository(SerpApiConfig config)
@@ -36,10 +34,7 @@ public class SerpApiProductRepository : IProductRepository
 
     string BuildUrl(SearchKeyword keyword)
     {
-        return $"{Endpoint}?engine={UnityWebRequest.EscapeURL(_config.Engine)}" +
-               $"&where=nexearch" +
-               $"&query={UnityWebRequest.EscapeURL(keyword.Full)}" +
-               $"&api_key={UnityWebRequest.EscapeURL(_config.ApiKey)}";
+        return $"{_config.ProxyUrl}?query={UnityWebRequest.EscapeURL(keyword.Full)}";
     }
 
     static async Task SendAsync(UnityWebRequest request, CancellationToken cancellationToken)
@@ -59,7 +54,7 @@ public class SerpApiProductRepository : IProductRepository
         }
     }
 
-    /// <summary>HTTP 결과를 ErrorCode로 바꾼다. API 키가 담긴 URL은 메시지에 넣지 않는다.</summary>
+    /// <summary>HTTP 결과를 ErrorCode로 바꾼다.</summary>
     static void ThrowIfFailed(UnityWebRequest request)
     {
         if (request.result == UnityWebRequest.Result.Success) return;

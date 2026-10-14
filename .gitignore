@@ -31,3 +31,6 @@ sysinfo.txt
 .env
 .env.*
 !.env.example
+
+# Unity 빌드 결과물
+BuildApps/

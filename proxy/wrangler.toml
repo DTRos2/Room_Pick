@@ -1,0 +1,9 @@
+name = "model-house-proxy"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# IP당 60초에 20회까지 허용한다. (period는 10 또는 60만 가능)
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 20, period = 60 }
