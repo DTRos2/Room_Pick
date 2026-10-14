@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
 
     [Header("몸통(충돌)")]
     [SerializeField] private float eyeHeight = 1.65f;
-    [SerializeField] private float bodyRadius = 0.3f;
+    [SerializeField] private float bodyRadius = 0.2f;
     [SerializeField] private float bodyHeight = 1.8f;
     [Tooltip("카메라가 이 거리보다 가까운 물체는 그리지 않는다. 몸통 반지름보다 충분히 작아야 벽 앞에 멈췄을 때 벽 너머가 보이지 않는다.")]
     [SerializeField, Min(0.01f)] private float nearClip = 0.05f;
@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
     [Tooltip("이름이 이 글자로 시작하는 오브젝트들의 바깥 경계를 걸어 다닐 수 있는 한계로 삼는다. 벽 충돌을 뚫고 나가도 이 범위 밖으로는 못 간다.")]
     [SerializeField] private string[] boundaryNamePrefixes = { "sm_walls" };
     [Tooltip("벽 앞에서 멈추는 여유 거리. 몸통 표면이 벽에서 이만큼 떨어진 곳에서 멈추고, 바깥 경계에서도 몸통 반지름에 더해 이만큼 안쪽까지만 걷는다.")]
-    [SerializeField, Min(0f)] private float wallMargin = 0.1f;
+    [SerializeField, Min(0f)] private float wallMargin = 0.05f;
 
     private CharacterController _controller;
     private Vector2 _walkMin;

@@ -3,12 +3,12 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 /// <summary>
-/// 메인 카메라에 CameraController를 붙이고, 콜라이더가 없는 벽(sm_walls*)에 MeshCollider를 추가한다.
+/// 메인 카메라에 CameraController를 붙이고, 콜라이더가 없는 벽(sm_walls*), 붙박이장 문(sm_closet_door*), 막힌 문틀(sm_door_frame_closed*)에 MeshCollider를 추가한다.
 /// 메뉴: RoomPick/카메라 이동 설정
 /// </summary>
 public static class CameraSetupTool
 {
-    private const string WallNamePrefix = "sm_walls";
+    private static readonly string[] SolidNamePrefixes = { "sm_walls", "sm_closet_door", "sm_door_frame_closed" };
 
     [MenuItem("RoomPick/카메라 이동 설정")]
     private static void Setup()
@@ -28,7 +28,7 @@ public static class CameraSetupTool
         int added = 0;
         foreach (MeshRenderer renderer in Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))
         {
-            if (!renderer.name.StartsWith(WallNamePrefix)) continue;
+            if (!IsSolid(renderer.name)) continue;
             if (renderer.GetComponent<Collider>() != null) continue;
 
             Undo.AddComponent<MeshCollider>(renderer.gameObject);
@@ -36,6 +36,13 @@ public static class CameraSetupTool
         }
 
         EditorSceneManager.MarkSceneDirty(cam.gameObject.scene);
-        Debug.Log($"카메라 이동 설정 완료: CameraController 부착, 벽 MeshCollider {added}개 추가");
+        Debug.Log($"카메라 이동 설정 완료: CameraController 부착, MeshCollider {added}개 추가");
+    }
+
+    private static bool IsSolid(string objectName)
+    {
+        foreach (string prefix in SolidNamePrefixes)
+            if (objectName.StartsWith(prefix)) return true;
+        return false;
     }
 }
