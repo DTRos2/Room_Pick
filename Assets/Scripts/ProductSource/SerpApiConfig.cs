@@ -1,40 +1,19 @@
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-
 /// <summary>
-/// SerpApi 호출에 필요한 설정. 키는 git에 올리지 않는 프로젝트 루트의 .env에서 읽는다.
-/// .env는 에디터에서만 읽을 수 있으므로 빌드에는 키가 포함되지 않는다.
+/// 상품 검색 호출 설정. SerpApi 키는 클라이언트에 두지 않고 Cloudflare Worker 프록시(proxy/)가 갖고 있다.
 /// </summary>
 public sealed class SerpApiConfig
 {
-    const string ApiKeyName = "SERPAPI_API_KEY";
-    const string EngineName = "SERPAPI_ENGINE";
-    const string DefaultEngine = "naver";
+    /// <summary>프록시 주소. 비밀이 아니므로 코드에 둔다.</summary>
+    public const string DefaultProxyUrl = "https://model-house-proxy.devlearning98.workers.dev/";
 
-    public string ApiKey { get; }
-    public string Engine { get; }
+    public string ProxyUrl { get; }
 
     /// <summary>요청 제한 시간(초)</summary>
     public int TimeoutSeconds { get; }
 
-    public SerpApiConfig(string apiKey, string engine = DefaultEngine, int timeoutSeconds = 10)
+    public SerpApiConfig(string proxyUrl = DefaultProxyUrl, int timeoutSeconds = 10)
     {
-        ApiKey = apiKey;
-        Engine = engine;
+        ProxyUrl = proxyUrl;
         TimeoutSeconds = timeoutSeconds;
-    }
-
-    /// <summary>프로젝트 루트의 .env에서 설정을 읽는다. 키가 없으면 ApiAuthFailed를 던진다.</summary>
-    public static SerpApiConfig LoadFromEnvFile()
-    {
-        string path = Path.GetFullPath(Path.Combine(Application.dataPath, "..", ".env"));
-        Dictionary<string, string> values = EnvFileReader.Read(path);
-
-        if (!values.TryGetValue(ApiKeyName, out string apiKey) || string.IsNullOrWhiteSpace(apiKey))
-            throw new RoomPickException(ErrorCode.ApiAuthFailed, $".env에 {ApiKeyName} 값이 없습니다. ({path})");
-
-        values.TryGetValue(EngineName, out string engine);
-        return new SerpApiConfig(apiKey, string.IsNullOrWhiteSpace(engine) ? DefaultEngine : engine);
     }
 }

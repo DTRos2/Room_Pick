@@ -31,7 +31,7 @@ public class ProductInfoController : MonoBehaviour
         RoomPickException configError = null;
         try
         {
-            search = new ProductService(new SerpApiProductRepository(SerpApiConfig.LoadFromEnvFile()));
+            search = new ProductService(new SerpApiProductRepository(new SerpApiConfig()));
         }
         catch (RoomPickException e)
         {
